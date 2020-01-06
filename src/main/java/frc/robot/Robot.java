@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
+import frc.robot.subsystems.ColorMatcher;
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -26,13 +28,21 @@ public class Robot extends TimedRobot {
   private final Joystick m_stick = new Joystick(0);
   private final Timer m_timer = new Timer();
 
+  ColorMatcher colorMatcher = new ColorMatcher();
+
   /**
    * This function is run when the robot is first started up and should be
    * used for any initialization code.
    */
   @Override
   public void robotInit() {
+    colorMatcher.Init();
   }
+
+  // @Override
+  // public void robotPeriodic() {
+  //   colorMatcher.Periodic();
+  // }
 
   /**
    * This function is run once each time the robot enters autonomous mode.
@@ -69,6 +79,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     m_robotDrive.arcadeDrive(m_stick.getY(), m_stick.getX());
+    colorMatcher.Periodic();
   }
 
   /**
