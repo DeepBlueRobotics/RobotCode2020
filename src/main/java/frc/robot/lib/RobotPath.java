@@ -15,7 +15,7 @@ import jaci.pathfinder.followers.EncoderFollower;
 public class RobotPath {
     
     private Trajectory leftTrajectory, rightTrajectory;
-    private Drivetrain drivetrain;
+    private Drivetrain dt;
     private Encoder leftEncoder, rightEncoder;
     private AnalogGyro gyro;
     private EncoderFollower leftEncoderFollower, rightEncoderFollower;
@@ -28,11 +28,11 @@ public class RobotPath {
         isInit = false;
     }
 
-    public void init(Drivetrain drivetrain, Encoder leftEncoder, Encoder rightEncoder, AnalogGyro gyro, int ticksPerRev, double wheelDiameter, double maxVelocity) {
+    public void init(Drivetrain dt, Encoder leftEncoder, Encoder rightEncoder, AnalogGyro gyro, int ticksPerRev, double wheelDiameter, double maxVelocity) {
         if(isInit) {
             return;
         }
-        this.drivetrain = drivetrain;
+        this.dt = dt;
         this.leftEncoder = leftEncoder;
         this.rightEncoder = rightEncoder;
         this.gyro = gyro;
@@ -70,7 +70,8 @@ public class RobotPath {
             double desiredHeading = Pathfinder.r2d(leftEncoderFollower.getHeading());
             double headingDifference = Pathfinder.boundHalfDegrees(desiredHeading - heading);
             double turn =  0.8 * (-1.0/80.0) * headingDifference;
-            drivetrain.drive(leftSpeed + turn, rightSpeed - turn);
+            double[] charParams = dt.characterizedDrive(leftSpeed + turn, rightSpeed - turn);
+            dt.drive(charParams[0], charParams[1]);
         }
     }
 
