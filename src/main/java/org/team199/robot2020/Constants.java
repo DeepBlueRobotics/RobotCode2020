@@ -28,17 +28,17 @@ public final class Constants {
     public static final class Drive {
         // CAN IDs
         public static final int kDtLeftMaster = 3;
-        public static final int kDtLeftSlave = 4;
+        public static final int kDtLeftSlave = 0;
         public static final int kDtRightMaster = 5;
         public static final int kDtRightSlave = 6;
-        public static final int kIntakeRoller = 0;
+        public static final int kIntakeRoller = 4;
         public static final int kFeederBelt = 1;
-        public static final int kFeederEjector = 2;
+        public static final int kFeederEjector = 0;
         public static final int kClimberWinch = 0; //TODO: Find Ports
         public static final int kClimberLift = 1; //TODO: Find Ports
 
         // solenoids
-        public static final int[] kIntakePistons = { 0, 1 };
+        public static final int[] kIntakePistons = { 2, 3 };
 
         // other
         public static final int kFeederInSensor = 0;

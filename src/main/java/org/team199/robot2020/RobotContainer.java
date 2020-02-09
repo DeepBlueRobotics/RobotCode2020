@@ -17,13 +17,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 import java.io.IOException;
 
-import org.team199.lib.RobotPath;
 import org.team199.robot2020.commands.Regurgitate;
-import org.team199.robot2020.commands.TeleopDrive;
 import org.team199.robot2020.commands.AdjustClimber;
 import org.team199.robot2020.commands.DeployClimber;
 import org.team199.robot2020.commands.RaiseRobot;
-import org.team199.robot2020.subsystems.Drivetrain;
 import org.team199.robot2020.subsystems.Feeder;
 import org.team199.robot2020.subsystems.Intake;
 import org.team199.robot2020.subsystems.Climber;
@@ -36,7 +33,6 @@ import org.team199.robot2020.subsystems.Climber;
  * commands, and button mappings) should be declared here.
  */
 public class RobotContainer {
-    private final Drivetrain drivetrain = new Drivetrain();
     private final Intake intake = new Intake();
     private final Feeder feeder = new Feeder();
     private final Joystick leftJoy = new Joystick(Constants.OI.LeftJoy.kPort);
@@ -45,24 +41,15 @@ public class RobotContainer {
     private final Climber climber = new Climber();
 
 
-    private RobotPath path;
-
     public RobotContainer() {
         configureButtonBindings();
-        drivetrain.setDefaultCommand(new TeleopDrive(drivetrain, leftJoy, rightJoy));
         feeder.setDefaultCommand(new RunCommand(() -> {
             if (feeder.isBallEntering()) 
                 feeder.runForward();
             else 
                 feeder.stop();
-        }));
+        }, feeder));
 
-        try {
-            path = new RobotPath("Test2");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        path.init(drivetrain);
     }
 
     private void configureButtonBindings() {
@@ -76,13 +63,14 @@ public class RobotContainer {
 
         // Intake toggle button
         new JoystickButton(controller, Constants.OI.Controller.kIntakeButton).whenPressed(new InstantCommand(() -> {
-            if (intake.isDeployed()) {
-                intake.retract();
-                intake.stop();
-            } else {
-                intake.deploy();
-                intake.intake();
-            }
+            // if (intake.isDeployed()) {
+            //     intake.retract();
+            //     intake.stop();
+            // } else {
+            //     intake.deploy();
+            //     intake.intake();
+            // }
+            intake.intake();
         }, intake));
 
         // Power cell regurgitate button
@@ -100,6 +88,6 @@ public class RobotContainer {
     }
 
     public Command getAutonomousCommand() {
-        return path.getPathCommand();
+        return new InstantCommand();
     }
 }
