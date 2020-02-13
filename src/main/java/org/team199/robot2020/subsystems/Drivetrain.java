@@ -93,6 +93,7 @@ public class Drivetrain extends SubsystemBase {
   private double prevRightVel = 0;
 
   public Drivetrain() {
+    SmartDashboard.putBoolean("Driving Forward", true);
     leftSlave.follow(leftMaster);
     rightSlave.follow(rightMaster);
     leftMaster.setInverted(true);

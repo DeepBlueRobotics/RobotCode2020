@@ -11,6 +11,7 @@ package org.team199.robot2020;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -93,6 +94,15 @@ public class RobotContainer {
         new JoystickButton(leftJoy, Constants.OI.LeftJoy.kCharacterizedDriveButton).whenPressed(new InstantCommand(
                 () -> SmartDashboard.putBoolean("Characterized Drive", !SmartDashboard.getBoolean("Characterized Drive", false))));
 
+        // Turns backwards driving on and off
+        new JoystickButton(leftJoy, Constants.OI.LeftJoy.kDriveForwardButton).whenPressed(new InstantCommand(() -> {
+                if (SmartDashboard.getBoolean("Driving Forward", true)) {
+                    SmartDashboard.putBoolean("Driving Forward", false); 
+                } else {
+                    SmartDashboard.putBoolean("Driving Forward", true);
+                }
+
+                }));
         // Intake toggle button
         new JoystickButton(controller, Constants.OI.Controller.kIntakeButton).whenPressed(new InstantCommand(() -> {
             if (intake.isDeployed()) {
