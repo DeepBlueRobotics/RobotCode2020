@@ -17,12 +17,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //import java.lang.AutoCloseable;
 
 public class Shooter extends SubsystemBase {
-    private static double kV = 0.129 / 60;
+    private static double kV = 0.002062;
     private static double kS = 0.105;
-    private static final double kP = 0.0001;
-    private static final double kI = 0.0;
+    private static final double kP = 0.00007;
+    private static final double kI = 0.0000004;
     private static final double kD = 0.005;
-    private static double iZone = 300;
+    private static double iZone = 50;
 
     private double kTargetSpeed = 4200;
 
@@ -66,7 +66,7 @@ public class Shooter extends SubsystemBase {
         if (d != pidController.getD()) pidController.setD(d);
         if (zone != pidController.getIZone()) pidController.setIZone(zone);
         pidController.setReference(getTargetSpeed(), ControlType.kVelocity, 0, calculateFeedForward(getTargetSpeed()));
-        
+
         SmartDashboard.putNumber("Speed Spark Max Port 2", masterEncoder.getVelocity());
         SmartDashboard.putNumber("Speed Spark Max Port 4", slaveEncoder.getVelocity());
     }

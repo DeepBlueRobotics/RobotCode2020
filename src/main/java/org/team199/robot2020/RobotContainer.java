@@ -91,8 +91,8 @@ public class RobotContainer {
         
         feeder.setDefaultCommand(new RunCommand(() -> {
             if (feeder.isCellEntering() && !feeder.isCellAtShooter()) {
-                feeder.runForward();
-                if(intake.isDeployed())
+               feeder.runForward();
+               if(intake.isDeployed())
                     intake.slow();
             } else {
                 feeder.stop();
@@ -147,9 +147,9 @@ public class RobotContainer {
 
         // Deploy climber button and allow for adjustment
         new JoystickButton(controller, Constants.OI.Controller.kDeployClimberButton).whenPressed(new SequentialCommandGroup(
-            new DeployClimber(climber),
-            new AdjustClimber(climber, controller)
-        ));
+             new DeployClimber(climber),
+             new AdjustClimber(climber, controller)
+         ));
 
         // climb button
         new JoystickButton(controller, Constants.OI.Controller.kRaiseRobotButton).whenPressed(new RaiseRobot(climber));
@@ -158,12 +158,12 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         try {
             final RobotPath path = paths[getPath().idx];
-            if(path == null) {
+            if (path == null) {
                 throw new Exception();
             }
             return new AutoShootAndDrive(intake, path);
-        } catch(final Exception e) {
-            return new InstantCommand();
+        } catch (final Exception e) {
+          return new InstantCommand();
         }
     }
 
@@ -205,7 +205,7 @@ public class RobotContainer {
     private void loadPath(final Path path, final String pathName, final boolean isInverted) {
         try {
             paths[path.idx] = new RobotPath(pathName, drivetrain, isInverted);
-        } catch(final Exception e) {
+        } catch (final Exception e) {
             System.err.println("Error Occured Loading Path: [" + path.name() + "," + pathName + "]");
             e.printStackTrace(System.err);
         }
