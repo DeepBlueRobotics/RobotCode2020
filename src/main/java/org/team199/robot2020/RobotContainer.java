@@ -86,20 +86,25 @@ public class RobotContainer {
         //sol1.set(DoubleSolenoid.Value.kOff);
         //sol2.set(DoubleSolenoid.Value.kOff);
 
-        shooter.setDefaultCommand(new RunCommand(()-> shooter.setSpeed(shooter.getTargetSpeed()), shooter));
-        drivetrain.setDefaultCommand(new TeleopDrive(drivetrain, leftJoy, rightJoy, lime));
-        
-        feeder.setDefaultCommand(new RunCommand(() -> {
-            if (feeder.isCellEntering() && !feeder.isCellAtShooter()) {
-               feeder.runForward();
-               if(intake.isDeployed())
-                    intake.slow();
-            } else {
-                feeder.stop();
+        if (shooter != null) {
+            // shooter.setDefaultCommand(new RunCommand(()-> shooter.setSpeed(shooter.getTargetSpeed()), shooter));
+        }
+        if (drivetrain != null) {
+            drivetrain.setDefaultCommand(new TeleopDrive(drivetrain, leftJoy, rightJoy, lime));
+        }
+        if (feeder != null && intake != null) {
+            feeder.setDefaultCommand(new RunCommand(() -> {
+                if (feeder.isCellEntering() && !feeder.isCellAtShooter()) {
+                feeder.runForward();
                 if(intake.isDeployed())
-                    intake.intake();
-            }
-        }, feeder, intake));
+                        intake.slow();
+                } else {
+                    feeder.stop();
+                    if(intake.isDeployed())
+                        intake.intake();
+                }
+            }, feeder, intake));
+        }
 
         paths = new RobotPath[6];
         loadPath(Path.BLUE1, "Blue1", true);
@@ -127,32 +132,40 @@ public class RobotContainer {
 
     private void configureButtonBindingsRightJoy() {
         // Align the robot and then shoots
-        new JoystickButton(rightJoy, Constants.OI.RightJoy.kAlignAndShootButton).whileHeld(new SequentialCommandGroup(new ShooterHorizontalAim(drivetrain, lime), new Shoot(feeder)));
+        if (drivetrain != null && feeder != null) {
+            new JoystickButton(rightJoy, Constants.OI.RightJoy.kAlignAndShootButton).whileHeld(new SequentialCommandGroup(new ShooterHorizontalAim(drivetrain, lime), new Shoot(feeder)));
+        }
     }
 
     private void configureButtonBindingsController() {
         // Intake toggle button
-        new JoystickButton(controller, Constants.OI.Controller.kIntakeButton).whenPressed(new InstantCommand(() -> {
-            if (intake.isDeployed()) {
-                intake.retract();
-                intake.stop();
-            } else {
-                intake.deploy();
-                intake.intake();
-            }
-        }, intake));
+        if (intake != null) {
+            new JoystickButton(controller, Constants.OI.Controller.kIntakeButton).whenPressed(new InstantCommand(() -> {
+                if (intake.isDeployed()) {
+                    intake.retract();
+                    intake.stop();
+                } else {
+                    intake.deploy();
+                    intake.intake();
+                }
+            }, intake));
+        }
 
         // Power cell regurgitate button
-        new JoystickButton(controller, Constants.OI.Controller.kRegurgitateButton).whileHeld(new Regurgitate(intake, feeder));
+        if (intake != null && feeder != null) {
+            new JoystickButton(controller, Constants.OI.Controller.kRegurgitateButton).whileHeld(new Regurgitate(intake, feeder));
+        }
+        
+        if (climber != null) {
+            // Deploy climber button and allow for adjustment
+            new JoystickButton(controller, Constants.OI.Controller.kDeployClimberButton).whenPressed(new SequentialCommandGroup(
+                new DeployClimber(climber),
+                new AdjustClimber(climber, controller)
+            ));
 
-        // Deploy climber button and allow for adjustment
-        new JoystickButton(controller, Constants.OI.Controller.kDeployClimberButton).whenPressed(new SequentialCommandGroup(
-             new DeployClimber(climber),
-             new AdjustClimber(climber, controller)
-         ));
-
-        // climb button
-        new JoystickButton(controller, Constants.OI.Controller.kRaiseRobotButton).whenPressed(new RaiseRobot(climber));
+            // climb button
+            new JoystickButton(controller, Constants.OI.Controller.kRaiseRobotButton).whenPressed(new RaiseRobot(climber));
+        }
     }
 
     public Command getAutonomousCommand() {
