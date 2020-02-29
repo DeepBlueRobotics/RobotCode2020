@@ -11,12 +11,14 @@ public class Dialer extends SubsystemBase {
 
     }
 
-    public void fullSpin () {
-        //rotation control
+    public void setSpeed(double speed) {
+        
     }
-
-    public void setColor () {
-        //used for position control
+    
+    public double getRotations() {
+        //Returns how much it's turned
+        double CHANGEME = 0;
+        return CHANGEME;
     }
 
     public void deploy () {
