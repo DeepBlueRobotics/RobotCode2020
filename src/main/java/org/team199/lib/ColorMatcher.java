@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package org.team199.lib;
 
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -9,21 +9,20 @@ import com.revrobotics.ColorMatchResult;
 import com.revrobotics.ColorMatch;
 
 public class ColorMatcher {
-    /**
+  /**
    * Change the I2C port below to match the connection of your color sensor
    */
   private final I2C.Port i2cPort = I2C.Port.kOnboard;
 
   /**
-   * A Rev Color Sensor V3 object is constructed with an I2C port as a 
-   * parameter. The device will be automatically initialized with default 
-   * parameters.
+   * A Rev Color Sensor V3 object is constructed with an I2C port as a parameter.
+   * The device will be automatically initialized with default parameters.
    */
   private final ColorSensorV3 m_colorSensor = new ColorSensorV3(i2cPort);
 
   /**
-   * A Rev Color Match object is used to register and detect known colors. This can 
-   * be calibrated ahead of time or during operation.
+   * A Rev Color Match object is used to register and detect known colors. This
+   * can be calibrated ahead of time or during operation.
    * 
    * This object uses a simple euclidian distance to estimate the closest match
    * with given confidence range.
@@ -31,39 +30,39 @@ public class ColorMatcher {
   private final ColorMatch m_colorMatcher = new ColorMatch();
 
   /**
-   * Note: Any example colors should be calibrated as the user needs, these
-   * are here as a basic example.
+   * Note: Any example colors should be calibrated as the user needs, these are
+   * here as a basic example.
    */
   public static final Color kBlueTarget = ColorMatch.makeColor(0.143, 0.427, 0.429);
   public static final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
   public static final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
   public static final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
 
-  //Rev Color threshold 
-  //blue 0.143, 0.427, 0.429
-  //green 0.197, 0.561, 0.240
-  //red 0.561, 0.232, 0.114
-  //yellow 0.361, 0.524, 0.113
-  
-    public void Init() {
-        m_colorMatcher.addColorMatch(kBlueTarget);
-        m_colorMatcher.addColorMatch(kGreenTarget);
-        m_colorMatcher.addColorMatch(kRedTarget);
-        m_colorMatcher.addColorMatch(kYellowTarget);
-        
-        m_colorMatcher.setConfidenceThreshold(0.80);
-    }
+  // Rev Color threshold
+  // blue 0.143, 0.427, 0.429
+  // green 0.197, 0.561, 0.240
+  // red 0.561, 0.232, 0.114
+  // yellow 0.361, 0.524, 0.113
 
-    public void Periodic() {
-            /**
-     * The method GetColor() returns a normalized color value from the sensor and can be
-     * useful if outputting the color to an RGB LED or similar. To
-     * read the raw color, use GetRawColor().
+  public ColorMatcher() {
+    m_colorMatcher.addColorMatch(kBlueTarget);
+    m_colorMatcher.addColorMatch(kGreenTarget);
+    m_colorMatcher.addColorMatch(kRedTarget);
+    m_colorMatcher.addColorMatch(kYellowTarget);
+
+    m_colorMatcher.setConfidenceThreshold(0.80);
+  }
+
+  public void periodic() {
+    /**
+     * The method GetColor() returns a normalized color value from the sensor and
+     * can be useful if outputting the color to an RGB LED or similar. To read the
+     * raw color, use GetRawColor().
      * 
-     * The color sensor works best when within a few inches from an object in
-     * well lit conditions (the built in LED is a big help here!). The farther
-     * an object is the more light from the surroundings will bleed into the 
-     * measurements and make it difficult to accurately determine its color.
+     * The color sensor works best when within a few inches from an object in well
+     * lit conditions (the built in LED is a big help here!). The farther an object
+     * is the more light from the surroundings will bleed into the measurements and
+     * make it difficult to accurately determine its color.
      */
     Color detectedColor = m_colorSensor.getColor();
 
@@ -86,13 +85,12 @@ public class ColorMatcher {
     }
 
     /**
-     * Open Smart Dashboard or Shuffleboard to see the color detected by the 
-     * sensor.
+     * Open Smart Dashboard or Shuffleboard to see the color detected by the sensor.
      */
     SmartDashboard.putNumber("Red", detectedColor.red);
     SmartDashboard.putNumber("Green", detectedColor.green);
     SmartDashboard.putNumber("Blue", detectedColor.blue);
     SmartDashboard.putNumber("Confidence", match.confidence);
     SmartDashboard.putString("Detected Color", colorString);
-    }
+  }
 }

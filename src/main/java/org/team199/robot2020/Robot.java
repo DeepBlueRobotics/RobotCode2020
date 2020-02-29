@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-import frc.robot.subsystems.ColorMatcher;
+import org.team199.lib.ColorMatcher;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -79,8 +79,6 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    m_robotDrive.arcadeDrive(m_stick.getY(), m_stick.getX());
-    colorMatcher.Periodic();
   }
 
   /**

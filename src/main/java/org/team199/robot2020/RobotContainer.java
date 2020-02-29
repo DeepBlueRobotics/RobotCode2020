@@ -37,10 +37,7 @@ import org.team199.robot2020.commands.RaiseRobot;
 import org.team199.robot2020.subsystems.Feeder;
 import org.team199.robot2020.subsystems.Intake;
 import org.team199.robot2020.subsystems.Climber;
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.PWMVictorSPX;
-import org.team199.robot2020.subsystems.ColorMatcher;
-import edu.wpi.first.wpilibj.Timer;
+import org.team199.lib.ColorMatcher;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -61,19 +58,10 @@ public class RobotContainer {
     private final Joystick controller = new Joystick(Constants.OI.Controller.kPort);
     private final Climber climber = new Climber();
     private final RobotPath[] paths;
-    private final DifferentialDrive m_robotDrive = new DifferentialDrive(new PWMVictorSPX(0), new PWMVictorSPX(1));
-    private final Joystick m_stick = new Joystick(0);
-    private final Timer m_timer = new Timer();
-    
-
-ColorMatcher colorMatcher = new ColorMatcher();
-
-
+    private final ColorMatcher colorMatcher = new ColorMatcher();
     private final Limelight lime = new Limelight();
 
     public RobotContainer() {
-
-        colorMatcher.Init();
         
         if(DriverStation.getInstance().getJoystickName(0).length() != 0) {
             configureButtonBindingsLeftJoy();
