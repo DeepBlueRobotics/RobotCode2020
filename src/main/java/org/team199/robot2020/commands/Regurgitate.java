@@ -27,10 +27,8 @@ public class Regurgitate extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    feeder.runBackward();
-    if (intake.isDeployed()) {
-      intake.outtake();
-    }
+    feeder.outtake();
+    intake.outtake();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -45,7 +43,6 @@ public class Regurgitate extends CommandBase {
     if (intake.isDeployed()) {
       intake.intake();
     }
-    feeder.reset();
   }
 
   // Returns true when the command should end.

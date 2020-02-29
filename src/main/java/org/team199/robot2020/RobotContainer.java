@@ -10,13 +10,11 @@ package org.team199.robot2020;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj.DriverStation;
 
 import org.team199.lib.Limelight;
 
@@ -91,15 +89,11 @@ public class RobotContainer {
         
         feeder.setDefaultCommand(new RunCommand(() -> {
             if (feeder.isCellEntering() && !feeder.isCellAtShooter()) {
-                feeder.runForward();
-                if(intake.isDeployed())
-                    intake.slow();
+                feeder.intake();
             } else {
                 feeder.stop();
-                if(intake.isDeployed())
-                    intake.intake();
             }
-        }, feeder, intake));
+        }, feeder));
 
         paths = new RobotPath[6];
         loadPath(Path.BLUE1, "Blue1", true);
