@@ -45,6 +45,7 @@ public final class Constants {
 
         // solenoids
         public static final int[] kIntakePistons = { 0, 1, 2, 5 };
+        public static final int[] kDialerPiston = { 6, 7 };
 
         // other
         public static final int kFeederInSensor = 11;
@@ -99,6 +100,10 @@ public final class Constants {
             public static final int kIntakeButton = X;
             public static final int kOuttakeButton = A;
             public static final int kRegurgitateButton = B;
+
+            // dialer
+            public static final int kPositionControlButton = BACK;
+            public static final int kRotationControlButton = START;
         }
     }
 }

@@ -30,10 +30,13 @@ import org.team199.robot2020.commands.Shoot;
 import org.team199.robot2020.commands.ShooterHorizontalAim;
 import org.team199.robot2020.subsystems.Drivetrain;
 import org.team199.robot2020.subsystems.Shooter;
+import org.team199.robot2020.subsystems.Dialer;
 import org.team199.robot2020.commands.AdjustClimber;
 import org.team199.robot2020.commands.AutoShootAndDrive;
 import org.team199.robot2020.commands.DeployClimber;
 import org.team199.robot2020.commands.RaiseRobot;
+import org.team199.robot2020.commands.PositionControl;
+import org.team199.robot2020.commands.RotationControl;
 import org.team199.robot2020.subsystems.Feeder;
 import org.team199.robot2020.subsystems.Intake;
 import org.team199.robot2020.subsystems.Climber;
@@ -53,12 +56,12 @@ public class RobotContainer {
     private final Shooter shooter = new Shooter();
     private final Intake intake = new Intake();
     private final Feeder feeder = new Feeder();
+    private final Dialer dialer = new Dialer();
     private final Joystick leftJoy = new Joystick(Constants.OI.LeftJoy.kPort);
     private final Joystick rightJoy = new Joystick(Constants.OI.RightJoy.kPort);
     private final Joystick controller = new Joystick(Constants.OI.Controller.kPort);
     private final Climber climber = new Climber();
     private final RobotPath[] paths;
-    private final ColorMatcher colorMatcher = new ColorMatcher();
     private final Limelight lime = new Limelight();
 
     public RobotContainer() {
@@ -142,6 +145,9 @@ public class RobotContainer {
                 intake.intake();
             }
         }, intake));
+
+        new JoystickButton(controller, Constants.OI.Controller.kRotationControlButton).whenPressed(new RotationControl(dialer));
+        new JoystickButton(controller, Constants.OI.Controller.kPositionControlButton).whenPressed(new PositionControl(dialer));
 
         // Power cell regurgitate button
         new JoystickButton(controller, Constants.OI.Controller.kRegurgitateButton).whileHeld(new Regurgitate(intake, feeder));

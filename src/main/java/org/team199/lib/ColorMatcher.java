@@ -37,7 +37,7 @@ public class ColorMatcher {
   public static final Color kGreenTarget = ColorMatch.makeColor(0.197, 0.561, 0.240);
   public static final Color kRedTarget = ColorMatch.makeColor(0.561, 0.232, 0.114);
   public static final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
-
+  
   // Rev Color threshold
   // blue 0.143, 0.427, 0.429
   // green 0.197, 0.561, 0.240
@@ -53,7 +53,7 @@ public class ColorMatcher {
     m_colorMatcher.setConfidenceThreshold(0.80);
   }
 
-  public void periodic() {
+  public String getColorString() {
     /**
      * The method GetColor() returns a normalized color value from the sensor and
      * can be useful if outputting the color to an RGB LED or similar. To read the
@@ -70,6 +70,7 @@ public class ColorMatcher {
      * Run the color match algorithm on our detected color
      */
     String colorString;
+
     ColorMatchResult match = m_colorMatcher.matchClosestColor(detectedColor);
 
     if (match.color == kBlueTarget) {
@@ -83,6 +84,8 @@ public class ColorMatcher {
     } else {
       colorString = "Unknown";
     }
+    //order is (clockwise) red, yellow, blue, green
+    
 
     /**
      * Open Smart Dashboard or Shuffleboard to see the color detected by the sensor.
@@ -92,5 +95,7 @@ public class ColorMatcher {
     SmartDashboard.putNumber("Blue", detectedColor.blue);
     SmartDashboard.putNumber("Confidence", match.confidence);
     SmartDashboard.putString("Detected Color", colorString);
+
+    return colorString;
   }
 }
