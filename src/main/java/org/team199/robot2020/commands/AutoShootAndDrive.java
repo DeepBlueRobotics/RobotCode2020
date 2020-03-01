@@ -10,7 +10,10 @@ import org.team199.robot2020.subsystems.Feeder;
 import org.team199.robot2020.subsystems.Intake;
 import org.team199.robot2020.subsystems.Shooter;
 
+import edu.wpi.first.wpilibj.geometry.Pose2d;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -25,11 +28,15 @@ public class AutoShootAndDrive extends SequentialCommandGroup {
         AutoShoot shoot = new AutoShoot(feeder, shooter, shooterDistanceSensor, 3);
 
         addCommands(
-            aim,
+            /*aim,
             new InstantCommand(() -> { 
-                SmartDashboard.putNumber("Shooter.kTargetSpeed", linearInterpol.calculate(drivetrain.getOdometry().getPoseMeters().getTranslation().getDistance(target))); 
+                SmartDashboard.putNumber("Shooter.kTargetSpeed", /*linearInterpol.calculate(drivetrain.getOdometry().getPoseMeters().getTranslation().getDistance(target))); 
+            }),*/
+            new InstantCommand(() -> { 
+                drivetrain.setOdometry(new DifferentialDriveOdometry(Rotation2d.fromDegrees(drivetrain.getHeading()), new Pose2d(3.39, 0.0, Rotation2d.fromDegrees(drivetrain.getHeading()))));
             }),
-            shoot,
+            shoot
+            /*
             new ShooterHorizontalAim(drivetrain, lime),
             new InstantCommand(() -> {
                 intake.intake();
@@ -42,9 +49,9 @@ public class AutoShootAndDrive extends SequentialCommandGroup {
             }, intake),
             aim,
             new InstantCommand(() -> { 
-                SmartDashboard.putNumber("Shooter.kTargetSpeed", linearInterpol.calculate(drivetrain.getOdometry().getPoseMeters().getTranslation().getDistance(target))); 
+                SmartDashboard.putNumber("Shooter.kTargetSpeed", /*linearInterpol.calculate(drivetrain.getOdometry().getPoseMeters().getTranslation().getDistance(target))); 
             }),
-            shoot
+            shoot*/
         );
     }
 }

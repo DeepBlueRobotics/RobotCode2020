@@ -30,6 +30,7 @@ import org.team199.robot2020.commands.ShooterHorizontalAim;
 import org.team199.robot2020.subsystems.Drivetrain;
 import org.team199.robot2020.subsystems.Shooter;
 import org.team199.robot2020.commands.AdjustClimber;
+import org.team199.robot2020.commands.AutoShoot;
 import org.team199.robot2020.commands.AutoShootAndDrive;
 import org.team199.robot2020.commands.DeployClimber;
 import org.team199.robot2020.commands.RaiseRobot;
@@ -121,7 +122,9 @@ public class RobotContainer {
 
     private void configureButtonBindingsRightJoy() {new JoystickButton(rightJoy, 3).whenPressed(new InstantCommand(drivetrain::toggleMode, drivetrain));
         // Align the robot and then shoots
+        new JoystickButton(rightJoy, Constants.OI.RightJoy.kShootButton).whileHeld(new SequentialCommandGroup(new Shoot(feeder)));
         new JoystickButton(rightJoy, Constants.OI.RightJoy.kAlignAndShootButton).whileHeld(new SequentialCommandGroup(new ShooterHorizontalAim(drivetrain, lime), new Shoot(feeder)));
+        new JoystickButton(rightJoy, 4).whenPressed(new AutoShoot(feeder, shooter, feeder.getShooterDistanceSensor(), 1));
     }
 
     private void configureButtonBindingsController() {
