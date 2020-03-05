@@ -80,9 +80,13 @@ public class Shooter extends SubsystemBase {
 
         kV = SmartDashboard.getNumber("Shooter.kV", kV);
         kS = SmartDashboard.getNumber("Shooter.kS", kS);
-        SmartDashboard.putNumber("Shooter.kTargetSpeed", 
-            linearInterpol.calculate(target.pos.getDistance(drivetrain.getOdometry().getPoseMeters().getTranslation()))
-        );
+
+        double speedAvg = 0.5 * (drivetrain.getEncRate(Drivetrain.Side.LEFT) + drivetrain.getEncRate(Drivetrain.Side.RIGHT));
+        double linearInterpolSpeed = linearInterpol.calculate(target.pos.getDistance(drivetrain.getOdometry().getPoseMeters().getTranslation()));
+        // This does not work because I would be subtracting m/s of the drivetrain to rpm of the shooter.
+        // I should calculate the speed of the ball in m/s based on the rpm of the shooter, then subtract, then convert back to rpm of the shooter.
+        double calculatedTargetSpeed = linearInterpolSpeed - speedAvg;
+        SmartDashboard.putNumber("Shooter.kTargetSpeed", calculatedTargetSpeed);
         setSpeed(SmartDashboard.getNumber("Shooter.kTargetSpeed", kTargetSpeed));
 
         if (p != pidController.getP()) pidController.setP(p);
