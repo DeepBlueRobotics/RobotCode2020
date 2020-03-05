@@ -48,7 +48,7 @@ public class PositionControl extends CommandBase {
     }
 
     public boolean isFinished() {
-        return colorMatcher.getColorString().equals(targetColor) || !dialer.isDeployed(); //TODO write code to get info from the thing
+        return colorMatcher.getColorString().equals(targetColor) || !dialer.isDeployed();
     }
 
     public void end(boolean interrupted) {
