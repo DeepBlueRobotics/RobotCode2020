@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Feeder extends SubsystemBase {
+public class Feeder2 extends SubsystemBase {
   private final CANSparkMax funnelMotor = MotorControllerFactory.createSparkMax(Constants.Drive.kFeederFunnel);
   private final CANSparkMax hopperMotor = MotorControllerFactory.createSparkMax(Constants.Drive.kFeederHopper);
 
@@ -30,7 +30,7 @@ public class Feeder extends SubsystemBase {
   private static double kInSensorDistance = Units.inchesToMeters(4)/1000;
   private static double kOutSensorDistance = Units.inchesToMeters(6)/1000;
   
-  public Feeder() {
+  public Feeder2() {
     SmartDashboard.putNumber("Feeder.kFunnelSpeed", kFunnelSpeed);
     SmartDashboard.putNumber("Feeder.kHopperIntakeSpeed", kHopperIntakeSpeed);
     SmartDashboard.putNumber("Feeder.kHopperShootSpeed", kHopperShootSpeed);

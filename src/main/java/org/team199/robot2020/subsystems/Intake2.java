@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Intake extends SubsystemBase {
+public class Intake2 extends SubsystemBase {
     private static double kIntakeSpeed = 1;
 
     private final CANSparkMax rollerMotor = MotorControllerFactory.createSparkMax(Constants.Drive.kIntakeRoller);
@@ -21,7 +21,7 @@ public class Intake extends SubsystemBase {
     /**
      * Vectored intake that rolls balls through the bumper gap and into feeder.
      */
-    public Intake() {
+    public Intake2() {
         rollerMotor.setInverted(false);
         rollerMotor.setSmartCurrentLimit(40);
 

@@ -2,18 +2,18 @@ package org.team199.robot2020.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-import org.team199.robot2020.subsystems.Feeder;
+import org.team199.robot2020.subsystems.Feeder2;
 
-public class Shoot extends CommandBase {
-    private final Feeder feeder;
+public class Shoot2 extends CommandBase {
+    private final Feeder2 feeder2;
 
-    public Shoot(Feeder feeder) {
-        this.feeder = feeder;
-        addRequirements(feeder);
+    public Shoot2(Feeder2 feeder2) {
+        this.feeder2 = feeder2;
+        addRequirements(feeder2);
     }
 
     public void initialize() {
-        feeder.shoot();
+        feeder2.shoot();
     }
 
     public boolean isFinished() {
@@ -21,6 +21,6 @@ public class Shoot extends CommandBase {
     }
 
     public void end(boolean interrupted) {
-        feeder.stop();
+        feeder2.stop();
     }
 }

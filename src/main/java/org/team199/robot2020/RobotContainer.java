@@ -22,9 +22,9 @@ import org.team199.lib.RobotPath;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-import org.team199.robot2020.commands.Regurgitate;
+import org.team199.robot2020.commands.Regurgitate2;
 import org.team199.robot2020.commands.TeleopDrive;
-import org.team199.robot2020.commands.Shoot;
+import org.team199.robot2020.commands.Shoot2;
 import org.team199.robot2020.commands.ShooterHorizontalAim;
 import org.team199.robot2020.subsystems.Drivetrain;
 import org.team199.robot2020.subsystems.Shooter;
@@ -32,8 +32,8 @@ import org.team199.robot2020.commands.AdjustClimber;
 import org.team199.robot2020.commands.AutoShootAndDrive;
 import org.team199.robot2020.commands.DeployClimber;
 import org.team199.robot2020.commands.RaiseRobot;
-import org.team199.robot2020.subsystems.Feeder;
-import org.team199.robot2020.subsystems.Intake;
+import org.team199.robot2020.subsystems.Feeder2;
+import org.team199.robot2020.subsystems.Intake2;
 import org.team199.robot2020.subsystems.Climber;
 
 /**
@@ -48,8 +48,8 @@ public class RobotContainer {
     private final DigitalInput autoSwitch2 = new DigitalInput(Constants.Drive.kAutoPathSwitch2Port);
     private final Drivetrain drivetrain = new Drivetrain();
     private final Shooter shooter = new Shooter();
-    private final Intake intake = new Intake();
-    private final Feeder feeder = new Feeder();
+    private final Intake2 intake2 = new Intake2();
+    private final Feeder2 feeder2 = new Feeder2();
     private final Joystick leftJoy = new Joystick(Constants.OI.LeftJoy.kPort);
     private final Joystick rightJoy = new Joystick(Constants.OI.RightJoy.kPort);
     private final Joystick controller = new Joystick(Constants.OI.Controller.kPort);
@@ -87,13 +87,13 @@ public class RobotContainer {
         shooter.setDefaultCommand(new RunCommand(()-> shooter.setSpeed(shooter.getTargetSpeed()), shooter));
         drivetrain.setDefaultCommand(new TeleopDrive(drivetrain, leftJoy, rightJoy, lime));
         
-        feeder.setDefaultCommand(new RunCommand(() -> {
-            if (feeder.isCellEntering() && !feeder.isCellAtShooter()) {
-                feeder.intake();
+        feeder2.setDefaultCommand(new RunCommand(() -> {
+            if (feeder2.isCellEntering() && !feeder2.isCellAtShooter()) {
+                feeder2.intake();
             } else {
-                feeder.stop();
+                feeder2.stop();
             }
-        }, feeder));
+        }, feeder2));
 
         paths = new RobotPath[6];
         loadPath(Path.BLUE1, "Blue1", true);
@@ -121,23 +121,23 @@ public class RobotContainer {
 
     private void configureButtonBindingsRightJoy() {
         // Align the robot and then shoots
-        new JoystickButton(rightJoy, Constants.OI.RightJoy.kAlignAndShootButton).whileHeld(new SequentialCommandGroup(new ShooterHorizontalAim(drivetrain, lime), new Shoot(feeder)));
+        new JoystickButton(rightJoy, Constants.OI.RightJoy.kAlignAndShootButton).whileHeld(new SequentialCommandGroup(new ShooterHorizontalAim(drivetrain, lime), new Shoot2(feeder2)));
     }
 
     private void configureButtonBindingsController() {
         // Intake toggle button
         new JoystickButton(controller, Constants.OI.Controller.kIntakeButton).whenPressed(new InstantCommand(() -> {
-            if (intake.isDeployed()) {
-                intake.retract();
-                intake.stop();
+            if (intake2.isDeployed()) {
+                intake2.retract();
+                intake2.stop();
             } else {
-                intake.doTheFlop();
-                intake.intake();
+                intake2.doTheFlop();
+                intake2.intake();
             }
-        }, intake));
+        }, intake2));
 
         // Power cell regurgitate button
-        new JoystickButton(controller, Constants.OI.Controller.kRegurgitateButton).whileHeld(new Regurgitate(intake, feeder));
+        new JoystickButton(controller, Constants.OI.Controller.kRegurgitateButton).whileHeld(new Regurgitate2(intake2, feeder2));
 
         // Deploy climber button and allow for adjustment
         new JoystickButton(controller, Constants.OI.Controller.kDeployClimberButton).whenPressed(new SequentialCommandGroup(
@@ -155,7 +155,7 @@ public class RobotContainer {
             if(path == null) {
                 throw new Exception();
             }
-            return new AutoShootAndDrive(intake, path);
+            return new AutoShootAndDrive(intake2, path);
         } catch(final Exception e) {
             return new InstantCommand();
         }

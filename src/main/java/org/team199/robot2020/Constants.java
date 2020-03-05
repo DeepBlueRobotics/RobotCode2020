@@ -38,6 +38,8 @@ public final class Constants {
         public static final int kFeederFunnel = 8;
         public static final int kFeederInSensor = 11;
         public static final int kFeederOutSensor = 10;
+        public static final int kFeederBelt = 8;
+        public static final int kFeederEjector = 7;
 
         public static final int kShooterMaster = 1;     // Left
         public static final int kShooterSlave = 14;     // Right

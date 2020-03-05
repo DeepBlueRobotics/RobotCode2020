@@ -7,19 +7,19 @@
 
 package org.team199.robot2020.commands;
 
-import org.team199.robot2020.subsystems.Feeder;
-import org.team199.robot2020.subsystems.Intake;
+import org.team199.robot2020.subsystems.Feeder2;
+import org.team199.robot2020.subsystems.Intake2;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class Regurgitate extends CommandBase {
-  private final Intake intake;
-  private final Feeder feeder;
+public class Regurgitate2 extends CommandBase {
+  private final Intake2 intake;
+  private final Feeder2 feeder;
   
   /**
    * Regurgitates the balls out of the feeder (and intake if it's deployed)
    */
-  public Regurgitate(Intake intake, Feeder feeder) {
+  public Regurgitate2(Intake2 intake, Feeder2 feeder) {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(this.intake = intake, this.feeder = feeder);
   }
