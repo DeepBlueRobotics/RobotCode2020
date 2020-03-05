@@ -19,10 +19,6 @@ public class PositionControl extends CommandBase {
 
     public void initialize() {
         dialer.toggle();
-    }
-
-    public void execute() {
-        dialer.setSpeed(1);
         gameData = DriverStation.getInstance().getGameSpecificMessage();
         if(gameData.length() > 0) {
             switch (gameData.charAt(0)) {
@@ -45,6 +41,10 @@ public class PositionControl extends CommandBase {
         } else {
             //Code for no data received yet
         }
+    }
+
+    public void execute() {
+        dialer.setSpeed(1);
     }
 
     public boolean isFinished() {
