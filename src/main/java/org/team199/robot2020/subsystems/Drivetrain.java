@@ -10,6 +10,7 @@ package org.team199.robot2020.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 
 import org.team199.lib.MotorControllerFactory;
 import org.team199.robot2020.Constants;
@@ -129,6 +130,20 @@ public class Drivetrain extends SubsystemBase {
     if(!isOdometryInit) {
       this.odometry = odometry;
       isOdometryInit = true;
+    }
+  }
+
+  public void toggleBreakMode() {
+    if(leftMaster.getIdleMode() == IdleMode.kBrake) {
+      leftMaster.setIdleMode(IdleMode.kCoast);
+      leftSlave.setIdleMode(IdleMode.kCoast);
+      rightMaster.setIdleMode(IdleMode.kCoast);
+      rightSlave.setIdleMode(IdleMode.kCoast);
+    } else {
+      leftMaster.setIdleMode(IdleMode.kBrake);
+      leftSlave.setIdleMode(IdleMode.kBrake);
+      rightMaster.setIdleMode(IdleMode.kBrake);
+      rightSlave.setIdleMode(IdleMode.kBrake);
     }
   }
 

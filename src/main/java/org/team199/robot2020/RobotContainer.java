@@ -121,6 +121,7 @@ public class RobotContainer {
 
     private void configureButtonBindingsRightJoy() {
         // Align the robot and then shoots
+        new JoystickButton(rightJoy, 3).whenPressed(new InstantCommand(drivetrain::toggleBreakMode, drivetrain));
         new JoystickButton(rightJoy, Constants.OI.RightJoy.kAlignAndShootButton).whileHeld(new SequentialCommandGroup(new ShooterHorizontalAim(drivetrain, lime), new Shoot(feeder)));
     }
 
