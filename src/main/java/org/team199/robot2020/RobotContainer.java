@@ -22,6 +22,7 @@ import org.team199.lib.LinearInterpolation;
 import org.team199.lib.RobotPath;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj.Preferences;
 
 import org.team199.robot2020.commands.Regurgitate;
 import org.team199.robot2020.commands.TeleopDrive;
@@ -56,8 +57,10 @@ public class RobotContainer {
     private final Joystick rightJoy = new Joystick(Constants.OI.RightJoy.kPort);
     private final Joystick controller = new Joystick(Constants.OI.Controller.kPort);
     private final Climber climber = new Climber();
+    private final Preferences preferences = Preferences.getInstance();
     private final RobotPath[] paths;
     private final LinearInterpolation linearInterpol;
+    boolean secondBot;
 
     public RobotContainer() {
         
@@ -93,6 +96,10 @@ public class RobotContainer {
                     intake.intake();
             }
         }, feeder, intake));
+        
+        preferences.putBoolean("SecondBot", false);
+        secondBot = preferences.getBoolean("SecondBot", true);
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAA" + "AAAAAAAAAAAAAAAAAAAA" + secondBot);
 
         paths = new RobotPath[4];
         if (DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue) {
