@@ -49,16 +49,16 @@ public class RobotContainer {
     private final DigitalInput autoSwitch2 = new DigitalInput(Constants.Ports.kAutoPathSwitch2Port);
     private final Drivetrain drivetrain = new Drivetrain();
     private final Limelight lime = new Limelight();
-    private final Intake intake = new Intake();
+    //private final Intake intake = new Intake();
     private final Feeder feeder = new Feeder();
     private final Joystick leftJoy = new Joystick(Constants.OI.LeftJoy.kPort);
     private final Joystick rightJoy = new Joystick(Constants.OI.RightJoy.kPort);
     private final Joystick controller = new Joystick(Constants.OI.Controller.kPort);
-    private final Climber climber = new Climber();
+    //private final Climber climber = new Climber();
     private final RobotPath[] paths;
     private final LinearInterpolation linearInterpol = new LinearInterpolation("ShooterData.csv");
     private final boolean isBlue = DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue;
-    private final Shooter shooter = new Shooter(drivetrain, lime, linearInterpol, isBlue ? Constants.FieldPositions.BLUE_PORT : Constants.FieldPositions.RED_PORT);
+    //private final Shooter shooter = new Shooter(drivetrain, lime, linearInterpol, isBlue ? Constants.FieldPositions.BLUE_PORT : Constants.FieldPositions.RED_PORT);
 
     public RobotContainer() {
         if(DriverStation.getInstance().getJoystickName(0).length() != 0) {
@@ -79,7 +79,7 @@ public class RobotContainer {
             System.err.println("ERROR: Dude, you're missing the controller.");
         }
 
-        shooter.setDefaultCommand(new RunCommand(()-> shooter.setSpeed(shooter.getTargetSpeed()), shooter));
+        //shooter.setDefaultCommand(new RunCommand(()-> shooter.setSpeed(shooter.getTargetSpeed()), shooter));
         drivetrain.setDefaultCommand(new TeleopDrive(drivetrain, leftJoy, rightJoy, lime));
         
         feeder.setDefaultCommand(new RunCommand(() -> {
@@ -106,32 +106,32 @@ public class RobotContainer {
             }
         }, intake));
         */
-        intake.setDefaultCommand(new RunCommand(() -> {
-            boolean encoderReset = false;
-            double targetEncoderDist = 100.0;   // TODO: Figure out the correct value.
-            if(intake.isDeployed()) {
-                if(feeder.isIntakeCellEntering()) {
-                    if (!feeder.isCellAtShooter()) {
-                        intake.slow();
-                    } else {
-                        if (!encoderReset) {
-                            intake.resetEncoder();
-                            encoderReset = true;
-                        }
-                        if (intake.getEncoderDistance() <= targetEncoderDist) {
-                            intake.slow();
-                        } else {
-                            encoderReset = false;
-                            intake.stop();
-                        }
-                    }
-                } else {
-                    intake.intake();
-                }
-            } else {
-                intake.stop();
-            }
-        }, intake));
+        // intake.setDefaultCommand(new RunCommand(() -> {
+        //     boolean encoderReset = false;
+        //     double targetEncoderDist = 100.0;   // TODO: Figure out the correct value.
+        //     if(intake.isDeployed()) {
+        //         if(feeder.isIntakeCellEntering()) {
+        //             if (!feeder.isCellAtShooter()) {
+        //                 intake.slow();
+        //             } else {
+        //                 if (!encoderReset) {
+        //                     intake.resetEncoder();
+        //                     encoderReset = true;
+        //                 }
+        //                 if (intake.getEncoderDistance() <= targetEncoderDist) {
+        //                     intake.slow();
+        //                 } else {
+        //                     encoderReset = false;
+        //                     intake.stop();
+        //                 }
+        //             }
+        //         } else {
+        //             intake.intake();
+        //         }
+        //     } else {
+        //         intake.stop();
+        //     }
+        // }, intake));
 
         paths = new RobotPath[4];
         if (DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue) {
@@ -159,33 +159,33 @@ public class RobotContainer {
 
     private void configureButtonBindingsRightJoy() {new JoystickButton(rightJoy, 3).whenPressed(new InstantCommand(drivetrain::toggleBreakMode, drivetrain));
         // Align the robot and then shoots
-        new JoystickButton(rightJoy, Constants.OI.RightJoy.kAlignAndShootButton).whileHeld(new SequentialCommandGroup(new ShooterHorizontalAim(drivetrain, lime), new Shoot(feeder, intake)));
-        new JoystickButton(rightJoy, Constants.OI.RightJoy.kShootButton).whileHeld(new Shoot(feeder, intake));
+        //new JoystickButton(rightJoy, Constants.OI.RightJoy.kAlignAndShootButton).whileHeld(new SequentialCommandGroup(new ShooterHorizontalAim(drivetrain, lime), new Shoot(feeder, intake)));
+        //new JoystickButton(rightJoy, Constants.OI.RightJoy.kShootButton).whileHeld(new Shoot(feeder, intake));
     }
 
     private void configureButtonBindingsController() {
         // Intake toggle button
-        new JoystickButton(controller, Constants.OI.Controller.kIntakeButton).whenPressed(new InstantCommand(() -> {
-            if (intake.isDeployed()) {
-                intake.retract();
-                intake.stop();
-            } else {
-                intake.doTheFlop();
-                intake.intake();
-            }
-        }, intake));
+        // new JoystickButton(controller, Constants.OI.Controller.kIntakeButton).whenPressed(new InstantCommand(() -> {
+        //     if (intake.isDeployed()) {
+        //         intake.retract();
+        //         intake.stop();
+        //     } else {
+        //         intake.doTheFlop();
+        //         intake.intake();
+        //     }
+        // }, intake));
 
         // Power cell regurgitate button
-        new JoystickButton(controller, Constants.OI.Controller.kRegurgitateButton).whileHeld(new Regurgitate(intake, feeder));
+        //new JoystickButton(controller, Constants.OI.Controller.kRegurgitateButton).whileHeld(new Regurgitate(intake, feeder));
 
         // Deploy climber button and allow for adjustment
-        new JoystickButton(controller, Constants.OI.Controller.kDeployClimberButton).whenPressed(new SequentialCommandGroup(
-            new DeployClimber(climber),
-            new AdjustClimber(climber, controller)
-        ));
+        // new JoystickButton(controller, Constants.OI.Controller.kDeployClimberButton).whenPressed(new SequentialCommandGroup(
+        //     new DeployClimber(climber),
+        //     new AdjustClimber(climber, controller)
+        // ));
 
         // climb button
-        new JoystickButton(controller, Constants.OI.Controller.kRaiseRobotButton).whenPressed(new RaiseRobot(climber));
+        //new JoystickButton(controller, Constants.OI.Controller.kRaiseRobotButton).whenPressed(new RaiseRobot(climber));
     }
 
     final Drivetrain getDrivetrain() {
@@ -198,9 +198,10 @@ public class RobotContainer {
             if(path == null) {
                 throw new Exception();
             }
-            return new AutoShootAndDrive(drivetrain, intake, feeder, 
-                                         shooter, lime, path, 
-                                         (isBlue ? Constants.FieldPositions.BLUE_PORT.pos : Constants.FieldPositions.RED_PORT.pos));
+            throw new Exception();
+            // return new AutoShootAndDrive(drivetrain, intake, feeder, 
+            //                              shooter, lime, path, 
+            //                              (isBlue ? Constants.FieldPositions.BLUE_PORT.pos : Constants.FieldPositions.RED_PORT.pos));
         } catch(final Exception e) {
             return new InstantCommand();
         }

@@ -41,6 +41,7 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
     Log.logData();
     MotorErrors.printSparkMaxErrorMessages();
+    System.out.println(Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory());
   }
 
   /**

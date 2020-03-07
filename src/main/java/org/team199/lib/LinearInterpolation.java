@@ -50,7 +50,7 @@ public class LinearInterpolation {
                 intercepts[i - 1] = ys[i] - slopes[i - 1] * xs[i];
             }
         } catch (FileNotFoundException e) {
-            System.out.println("File named " + filename + " not found.");
+            //System.out.println("File named " + filename + " not found.");
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
@@ -66,10 +66,10 @@ public class LinearInterpolation {
                 if (xs[i] - x >= 0) { return (slopes[i - 1] * x + intercepts[i - 1]); } 
             }
         } else if (x > maxX) {
-            System.out.println("Input data exceeds domain.");
+            //System.out.println("Input data exceeds domain.");
             return ys[xs.length - 1];
         } else if (x < minX) {
-            System.out.println("Input data is less than domain.");
+            //System.out.println("Input data is less than domain.");
             return ys[0];
         }
         // This should run only in case neither the calculate or outside domain returns run.
