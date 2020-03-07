@@ -99,7 +99,7 @@ public class RobotContainer {
         
         preferences.putBoolean("SecondBot", false);
         secondBot = preferences.getBoolean("SecondBot", true);
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAA" + "AAAAAAAAAAAAAAAAAAAA" + secondBot);
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAA" + "BRFUUUHH" + "AAAAAAAAAAAAAAAAAAAA" + secondBot);
 
         paths = new RobotPath[4];
         if (DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue) {
