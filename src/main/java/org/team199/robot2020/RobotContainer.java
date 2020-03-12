@@ -24,6 +24,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import org.team199.robot2020.commands.Regurgitate2;
 import org.team199.robot2020.commands.TeleopDrive;
+import org.team199.robot2020.commands.ToggleIntake2;
 import org.team199.robot2020.commands.Shoot2;
 import org.team199.robot2020.commands.ShooterHorizontalAim;
 import org.team199.robot2020.subsystems.Drivetrain;
@@ -122,19 +123,12 @@ public class RobotContainer {
     private void configureButtonBindingsRightJoy() {
         // Align the robot and then shoots
         new JoystickButton(rightJoy, Constants.OI.RightJoy.kAlignAndShootButton).whileHeld(new SequentialCommandGroup(new ShooterHorizontalAim(drivetrain, lime), new Shoot2(feeder2)));
+        new JoystickButton(rightJoy, 3).whenPressed(new InstantCommand(drivetrain::toggleBreakMode, drivetrain));
     }
 
     private void configureButtonBindingsController() {
         // Intake toggle button
-        new JoystickButton(controller, Constants.OI.Controller.kIntakeButton).whenPressed(new InstantCommand(() -> {
-            if (intake2.isDeployed()) {
-                intake2.retract();
-                intake2.stop();
-            } else {
-                intake2.doTheFlop();
-                intake2.intake();
-            }
-        }, intake2));
+        new JoystickButton(controller, Constants.OI.Controller.kIntakeButton).whenPressed(new ToggleIntake2(intake2));
 
         // Power cell regurgitate button
         new JoystickButton(controller, Constants.OI.Controller.kRegurgitateButton).whileHeld(new Regurgitate2(intake2, feeder2));
