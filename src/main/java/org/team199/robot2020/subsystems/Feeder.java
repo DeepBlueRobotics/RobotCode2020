@@ -11,6 +11,8 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.playingwithfusion.TimeOfFlight;
 
+import edu.wpi.first.wpilibj.Encoder;
+
 import org.team199.lib.MotorControllerFactory;
 import org.team199.robot2020.Constants;
 
@@ -36,6 +38,9 @@ public class Feeder extends SubsystemBase {
   private final WPI_TalonSRX ejectMotor = MotorControllerFactory.createTalon(Constants.Drive.kFeederEjector);
   private final TimeOfFlight inSensor = new TimeOfFlight(Constants.Drive.kFeederInSensor);
   private final TimeOfFlight outSensor = new TimeOfFlight(Constants.Drive.kFeederOutSensor);
+
+  private final Encoder beltEncoder = new Encoder(0, 0);//TODO: Change to correct values
+  private final Encoder ejectEncoder = new Encoder(0,0);//TODO: Change to correct values
   
   private double limitDistance = 12000;
   private double intakeDelay = 0.1;
