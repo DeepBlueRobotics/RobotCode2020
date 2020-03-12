@@ -7,11 +7,9 @@
 
 package org.team199.lib;
 
-import org.team199.robot2020.subsystems.Drivetrain;
-import org.team199.robot2020.subsystems.Drivetrain.Side;
-
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Limelight {
@@ -27,12 +25,13 @@ public class Limelight {
   ta = Target Area (0% of image to 100% of image)
   There are more values we could be using. Check the documentation.
   */
-  private double tv, tx, ty, ta;
   public boolean stopSteer = false;
-  private double mounting_angle;
+  private double tv, tx, ty, ta;
+  private double txRange = 1.0;
+  private double mountingAngle;
   private double adjustment = 0.0;
-  private double steering_factor = 0.25;
-  private double prev_tx = 1.0;
+  private double steeringFactor = 0.25;
+  private double headingThreshold = 1.0;
   private double tolerance = 0.01;
   private double backlashOffset = 0.0;
   private double prevHeading = 0;
@@ -71,13 +70,13 @@ public class Limelight {
   public void determineMountingAngle(double distance, double cameraHeight, double objectHeight) {
     // NOTE: ty may be negative.
     ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0.0);
-    mounting_angle = Math.atan((cameraHeight - objectHeight) / distance) - ty;
+    mountingAngle = Math.atan((cameraHeight - objectHeight) / distance) - ty;
   }
 
   // Determine the distance an object is from the limelight given the camera's height off of the ground and the object's height off of the ground.
   public double determineObjectDist(double cameraHeight, double objectHeight) {
     ty = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ty").getDouble(0.0);
-    return (objectHeight - cameraHeight) / (Math.tan(mounting_angle + ty));
+    return (objectHeight - cameraHeight) / (Math.tan(mountingAngle + ty));
   }
 
   /* Given what is currently seen, determine the entries rotMat and translateVec parameters
@@ -125,13 +124,17 @@ public class Limelight {
   }
 
   // Adjusts the angle facing a vision target. Uses basic PID with the tx value from the network table.
-  public double steeringAssist(Drivetrain dt) {
+  public double steeringAssist(Pose2d pose) {
+    double currentHeading = pose.getRotation().getDegrees();
+    double poseX = pose.getTranslation().getX();
+    double poseY = pose.getTranslation().getY();
+    double deltaHeading = currentHeading - prevHeading;
+
     tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0.0);
     tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0.0);
     ta = NetworkTableInstance.getDefault().getTable("limelight").getEntry("ta").getDouble(0.0);
     SmartDashboard.putNumber("Crosshair Horizontal Offset", tx);
     SmartDashboard.putNumber("Found Vision Target", tv);
-    SmartDashboard.putNumber("Prev_tx", prev_tx);
     tx = Double.isNaN(tx) ? 0 : tx;
     double[] pidValues = SmartDashboard.getNumberArray("AutoAlign: PID Values", new double[]{0.015, 0, 0});
     pidController.setPID(pidValues[0], pidValues[1], pidValues[2]);
@@ -140,29 +143,31 @@ public class Limelight {
     if (tv == 1.0 && !stopSteer) {
       if (ta > SmartDashboard.getNumber("Area Threshold", 0.02)) {
         adjustment = pidController.calculate(tx);
-        prev_tx = tx;
         
         if (!newPIDLoop) {
           newPIDLoop = true;
-          pidController.setSetpoint(Math.signum(prev_tx) * SmartDashboard.getNumber("AutoAlign: Backlash Offset", backlashOffset));
+          pidController.setSetpoint(Math.signum(deltaHeading) * SmartDashboard.getNumber("AutoAlign: Backlash Offset", backlashOffset));
         }
       }
-    } else {
+    } else if (!stopSteer) {
       newPIDLoop = false;
       pidController.reset();
-      adjustment = Math.signum(prev_tx) * steering_factor;
+      adjustment = Math.signum(deltaHeading) * steeringFactor;
+    } else {
+      adjustment = 0.0;
     }
 
-    if (Math.abs(tx) < 1.0 && Math.abs(prev_tx) < 1.0 && Math.abs(dt.getHeading() - prevHeading) < 1) stopSteer = true;
+    if (Math.abs(tx) < txRange && Math.abs(deltaHeading) < headingThreshold) stopSteer = true;
     else stopSteer = false;
+
     if(stopSteer) {
       adjustment = 0;
     }
-    prevHeading = dt.getHeading();
+    prevHeading = currentHeading;
 
     SmartDashboard.putBoolean("Stop Auto Steering", stopSteer);
 
-    adjustment = Math.signum(tx) * Math.min(Math.abs(adjustment), 0.5);
+    adjustment = Math.signum(adjustment) * Math.min(Math.abs(adjustment), 0.5);
     SmartDashboard.putNumber("Adjustment", adjustment);
     return adjustment;
   }
@@ -170,9 +175,9 @@ public class Limelight {
     return pidController.atSetpoint();
   }
   // Combination of distance assist and steering assist
-  public double[] autoTarget(Drivetrain dt) {
+  public double[] autoTarget(Pose2d pose) {
     double dist_assist = distanceAssist();
-    double steer_assist = steeringAssist(dt);
+    double steer_assist = steeringAssist(pose);
     double[] params = {dist_assist + steer_assist, dist_assist - steer_assist};
     return params;
   }

@@ -86,14 +86,13 @@ public class TeleopDrive extends CommandBase {
         }
       }
       else if (limelightMode == Limelight.Mode.STEER) {
-        adjustment = lime.steeringAssist(drivetrain);
-        //final double[] charParams = drivetrain.characterizedDrive(adjustment, -adjustment);
+        adjustment = lime.steeringAssist(drivetrain.getOdometry().getPoseMeters());
         drivetrain.tankDrive(adjustment, -adjustment, false);
         if (lime.isAligned())  {
           SmartDashboard.putBoolean("Finished Aligning", true);
         }
       } else {
-        final double[] params = lime.autoTarget(drivetrain);
+        final double[] params = lime.autoTarget(drivetrain.getOdometry().getPoseMeters());
         drivetrain.tankDrive(params[0], params[1], false);
         final double maxInput = Math.max(Math.abs(params[0]), Math.abs(params[1]));
         if (maxInput < minError)  {

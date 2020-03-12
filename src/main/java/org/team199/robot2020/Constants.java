@@ -114,9 +114,6 @@ public final class Constants {
             public static final int kIntakeButton = X;
             public static final int kOuttakeButton = A;
             public static final int kRegurgitateButton = B;
-
-            
-
         }
     }
 
