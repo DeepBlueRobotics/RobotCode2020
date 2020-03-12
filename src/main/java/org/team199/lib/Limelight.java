@@ -28,7 +28,7 @@ public class Limelight {
   public boolean stopSteer = false;
   public boolean searchOut = false;
   private double tv, tx, ty, ta;
-  private double txRange = 1.0;
+  private double txRange = 0.5;
   private double mountingAngle;
   private double adjustment = 0.0;
   private double steeringFactor = 0.25;
@@ -46,15 +46,13 @@ public class Limelight {
 
   public Limelight() {
     SmartDashboard.putNumber("Area Threshold", 0.02);
-    SmartDashboard.putNumberArray("AutoAlign: PID Values", new double[]{0.015,0,0});
     SmartDashboard.putNumber("AutoAlign: Tolerance", tolerance);
     SmartDashboard.putNumber("AutoAlign: Backlash Offset", backlashOffset);
     SmartDashboard.setPersistent("Area Threshold");
-    SmartDashboard.setPersistent("AutoAlign: PID Values");
     SmartDashboard.setPersistent("AutoAlign: Tolerance");
     SmartDashboard.setPersistent("AutoAlign: Backlash Offset");
-    
-    double[] pidValues = SmartDashboard.getNumberArray("AutoAlign: PID Values", new double[]{0.02,0,0});
+    SmartDashboard.putNumber("AutoAlign: tx Range",0.5);
+    double[] pidValues = {0.01,0,0.001};
     pidController = new PIDController(pidValues[0],pidValues[1],pidValues[2],1D/90D);
     pidController.setSetpoint(0);
     pidController.setTolerance(SmartDashboard.getNumber("AutoAlign: Tolerance", 0.01));
@@ -137,8 +135,7 @@ public class Limelight {
     SmartDashboard.putNumber("Crosshair Horizontal Offset", tx);
     SmartDashboard.putNumber("Found Vision Target", tv);
     tx = Double.isNaN(tx) ? 0 : tx;
-    double[] pidValues = SmartDashboard.getNumberArray("AutoAlign: PID Values", new double[]{0.015, 0, 0});
-    pidController.setPID(pidValues[0], pidValues[1], pidValues[2]);
+    
     pidController.setTolerance(SmartDashboard.getNumber("AutoAlign: Tolerance", 0.01));
   
     if (tv == 1.0 && !stopSteer) {
@@ -158,7 +155,7 @@ public class Limelight {
       adjustment = 0.0;
     }
 
-    if (tv == 1.0 && Math.abs(tx) < txRange && Math.abs(deltaHeading) < headingThreshold) stopSteer = true;
+    if (tv == 1.0 && Math.abs(tx) < SmartDashboard.getNumber("AutoAlign: tx Range", 0.1) && Math.abs(deltaHeading) < headingThreshold) stopSteer = true;
     else stopSteer = false;
 
     if(stopSteer) {
