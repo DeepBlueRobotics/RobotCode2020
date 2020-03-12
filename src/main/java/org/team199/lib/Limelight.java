@@ -26,6 +26,7 @@ public class Limelight {
   There are more values we could be using. Check the documentation.
   */
   public boolean stopSteer = false;
+  public boolean searchOut = false;
   private double tv, tx, ty, ta;
   private double txRange = 1.0;
   private double mountingAngle;
@@ -149,7 +150,7 @@ public class Limelight {
           pidController.setSetpoint(Math.signum(deltaHeading) * SmartDashboard.getNumber("AutoAlign: Backlash Offset", backlashOffset));
         }
       }
-    } else if (!stopSteer) {
+    } else if (!stopSteer && searchOut) {
       newPIDLoop = false;
       pidController.reset();
       adjustment = Math.signum(deltaHeading) * steeringFactor;
