@@ -18,6 +18,7 @@ public class Intake2 extends SubsystemBase {
     private final DoubleSolenoid intakePistons2 = new DoubleSolenoid(Constants.Drive.kIntakePistons[2], Constants.Drive.kIntakePistons[3]);
 
     private boolean deployed = false;
+    private boolean running = false;
 
     /**
      * Vectored intake that rolls balls through the bumper gap and into feeder.
@@ -35,14 +36,17 @@ public class Intake2 extends SubsystemBase {
 
     public void intake() {
         rollerMotor.set(kIntakeSpeed);
+        running = true;
     }
 
     public void outtake() {
         rollerMotor.set(-kIntakeSpeed);
+        running = true;
     }
 
     public void stop() {
         rollerMotor.set(0);
+        running = false;
     }
 
     public void deploy() {
@@ -57,15 +61,14 @@ public class Intake2 extends SubsystemBase {
         deployed = false;
     }
 
-    // for if we want to try making our intake less rigid
-    public void doTheFlop() {
-        intakePistons1.set(DoubleSolenoid.Value.kReverse);
-        intakePistons2.set(DoubleSolenoid.Value.kReverse);
-        deployed = true;
+    public void toggle() {
+        if (deployed) {
+            retract();
+        } else {
+            deploy();
+        }
     }
 
-    public boolean isDeployed() {
-        return deployed;
-    }
-
+    public boolean isDeployed() { return deployed; }
+    public boolean isRunning() { return running; }
 }

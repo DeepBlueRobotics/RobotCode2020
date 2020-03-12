@@ -27,24 +27,31 @@ public class Feeder2 extends SubsystemBase {
   private static double kFunnelSpeed = 1;
   private static double kHopperIntakeSpeed = .5;
   private static double kHopperShootSpeed = 1;
-  private static double kInSensorDistance = Units.inchesToMeters(4)/1000;
-  private static double kOutSensorDistance = Units.inchesToMeters(6)/1000;
+  private static double kInSensorDistance = Units.inchesToMeters(4)*1000;
+  private static double kOutSensorDistance = Units.inchesToMeters(6)*1000;
   
   public Feeder2() {
-    SmartDashboard.putNumber("Feeder.kFunnelSpeed", kFunnelSpeed);
-    SmartDashboard.putNumber("Feeder.kHopperIntakeSpeed", kHopperIntakeSpeed);
-    SmartDashboard.putNumber("Feeder.kHopperShootSpeed", kHopperShootSpeed);
-    SmartDashboard.putNumber("Feeder.kInSensorDistance", kInSensorDistance);
-    SmartDashboard.putNumber("Feeder.kOutSensorDistance", kOutSensorDistance);
+    hopperMotor.setSmartCurrentLimit(30);
+    funnelMotor.setSmartCurrentLimit(30);
+    hopperMotor.setInverted(true);
+
+    SmartDashboard.putNumber("Feeder2.kFunnelSpeed", kFunnelSpeed);
+    SmartDashboard.putNumber("Feeder2.kHopperIntakeSpeed", kHopperIntakeSpeed);
+    SmartDashboard.putNumber("Feeder2.kHopperShootSpeed", kHopperShootSpeed);
+    SmartDashboard.putNumber("Feeder2.kInSensorDistance", kInSensorDistance);
+    SmartDashboard.putNumber("Feeder2.kOutSensorDistance", kOutSensorDistance);
   }
 
   @Override
   public void periodic() {
-    kFunnelSpeed = SmartDashboard.getNumber("Feeder.kFunnelSpeed", kFunnelSpeed);
-    kHopperIntakeSpeed = SmartDashboard.getNumber("Feeder.kHopperIntakeSpeed", kHopperIntakeSpeed);
-    kHopperShootSpeed = SmartDashboard.getNumber("Feeder.kHopperShootSpeed", kHopperShootSpeed);
-    kInSensorDistance = SmartDashboard.getNumber("Feeder.kInSensorDistance", kInSensorDistance);
-    kOutSensorDistance = SmartDashboard.getNumber("Feeder.kOutSensorDistance", kOutSensorDistance);
+    kFunnelSpeed = SmartDashboard.getNumber("Feeder2.kFunnelSpeed", kFunnelSpeed);
+    kHopperIntakeSpeed = SmartDashboard.getNumber("Feeder2.kHopperIntakeSpeed", kHopperIntakeSpeed);
+    kHopperShootSpeed = SmartDashboard.getNumber("Feeder2.kHopperShootSpeed", kHopperShootSpeed);
+    kInSensorDistance = SmartDashboard.getNumber("Feeder2.kInSensorDistance", kInSensorDistance);
+    kOutSensorDistance = SmartDashboard.getNumber("Feeder2.kOutSensorDistance", kOutSensorDistance);
+  
+    SmartDashboard.putNumber("Feeder2.currentInSensorDistance", inSensor.getRange());
+    SmartDashboard.putNumber("Feeder2.currentOutSensorDistance", outSensor.getRange());
   }
 
   public boolean isCellEntering() {
@@ -55,8 +62,11 @@ public class Feeder2 extends SubsystemBase {
     return outSensor.getRange() < kOutSensorDistance;
   }
 
-  public void intake() {
+  public void funnel() {
     funnelMotor.set(kFunnelSpeed);
+  }
+
+  public void hop() {
     hopperMotor.set(kHopperIntakeSpeed);
   }
 
@@ -68,6 +78,10 @@ public class Feeder2 extends SubsystemBase {
   public void shoot() {
     funnelMotor.set(kFunnelSpeed);
     hopperMotor.set(kHopperShootSpeed);
+  }
+
+  public void stopHopper() {
+    hopperMotor.set(0);
   }
 
   public void stop() {

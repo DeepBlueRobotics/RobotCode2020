@@ -12,23 +12,23 @@ import org.team199.robot2020.subsystems.Intake2;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class Regurgitate2 extends CommandBase {
-  private final Intake2 intake;
-  private final Feeder2 feeder;
-  
+public class Yeet2 extends CommandBase {
+  private Intake2 intake2;
+  private Feeder2 feeder2;
+
   /**
-   * Regurgitates the balls out of the feeder (and intake if it's deployed)
+   * Creates a new Yoink2.
    */
-  public Regurgitate2(Intake2 intake, Feeder2 feeder) {
+  public Yeet2(Intake2 intake2, Feeder2 feeder2) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(this.intake = intake, this.feeder = feeder);
+    addRequirements(this.intake2 = intake2, this.feeder2 = feeder2);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    feeder.outtake();
-    intake.outtake();
+    intake2.outtake();
+    feeder2.outtake();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -39,10 +39,8 @@ public class Regurgitate2 extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    feeder.stop();
-    if (intake.isDeployed()) {
-      intake.intake();
-    }
+    intake2.stop();
+    feeder2.stop();
   }
 
   // Returns true when the command should end.

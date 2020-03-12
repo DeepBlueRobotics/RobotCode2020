@@ -59,7 +59,7 @@ public class Drivetrain extends SubsystemBase {
   private final CANEncoder leftEnc = leftMaster.getEncoder();
   private final CANEncoder rightEnc = rightMaster.getEncoder();
 
-  private final AHRS gyro = new AHRS(SerialPort.Port.kUSB1); //Also try kUSB and kUSB2
+  private final AHRS gyro = new AHRS(); //Also try kUSB and kUSB2
 
   private final DifferentialDrive diffDrive = new DifferentialDrive(leftMaster, rightMaster);
 

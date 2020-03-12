@@ -22,11 +22,12 @@ import org.team199.lib.RobotPath;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-import org.team199.robot2020.commands.Regurgitate2;
 import org.team199.robot2020.commands.TeleopDrive;
-import org.team199.robot2020.commands.ToggleIntake2;
+import org.team199.robot2020.commands.Yeet2;
+import org.team199.robot2020.commands.Yoink2;
 import org.team199.robot2020.commands.Shoot2;
 import org.team199.robot2020.commands.ShooterHorizontalAim;
+import org.team199.robot2020.commands.StoreCells;
 import org.team199.robot2020.subsystems.Drivetrain;
 import org.team199.robot2020.subsystems.Shooter;
 import org.team199.robot2020.commands.AdjustClimber;
@@ -88,13 +89,7 @@ public class RobotContainer {
         shooter.setDefaultCommand(new RunCommand(()-> shooter.setSpeed(shooter.getTargetSpeed()), shooter));
         drivetrain.setDefaultCommand(new TeleopDrive(drivetrain, leftJoy, rightJoy, lime));
         
-        feeder2.setDefaultCommand(new RunCommand(() -> {
-            if (feeder2.isCellEntering() && !feeder2.isCellAtShooter()) {
-                feeder2.intake();
-            } else {
-                feeder2.stop();
-            }
-        }, feeder2));
+        feeder2.setDefaultCommand(new StoreCells(feeder2));
 
         paths = new RobotPath[6];
         loadPath(Path.BLUE1, "Blue1", true);
@@ -118,20 +113,28 @@ public class RobotContainer {
         // Toggle Characterize Drive                
         new JoystickButton(leftJoy, Constants.OI.LeftJoy.kCharacterizedDriveButton).whenPressed(new InstantCommand(
                 () -> SmartDashboard.putBoolean("Characterized Drive", !SmartDashboard.getBoolean("Characterized Drive", false))));
+        
+        // intake buttons
+        new JoystickButton(leftJoy, Constants.OI.LeftJoy.kToggleIntakeButton).whenPressed(new InstantCommand(() -> intake2.toggle()));
+        new JoystickButton(leftJoy, Constants.OI.LeftJoy.kYeetButton).whileHeld(new Yeet2(intake2, feeder2));
     }
 
     private void configureButtonBindingsRightJoy() {
         // Align the robot and then shoots
         new JoystickButton(rightJoy, Constants.OI.RightJoy.kAlignAndShootButton).whileHeld(new SequentialCommandGroup(new ShooterHorizontalAim(drivetrain, lime), new Shoot2(feeder2)));
-        new JoystickButton(rightJoy, 3).whenPressed(new InstantCommand(drivetrain::toggleBreakMode, drivetrain));
+        
+        // toggle break mode
+        new JoystickButton(rightJoy, Constants.OI.RightJoy.kToggleBreakModeButton).whenPressed(new InstantCommand(drivetrain::toggleBreakMode, drivetrain));
+        
+        // intake button
+        new JoystickButton(rightJoy, Constants.OI.RightJoy.kYoinkButton).whenPressed(new Yoink2(intake2, feeder2));
     }
 
     private void configureButtonBindingsController() {
-        // Intake toggle button
-        new JoystickButton(controller, Constants.OI.Controller.kIntakeButton).whenPressed(new ToggleIntake2(intake2));
-
-        // Power cell regurgitate button
-        new JoystickButton(controller, Constants.OI.Controller.kRegurgitateButton).whileHeld(new Regurgitate2(intake2, feeder2));
+        // intake buttons
+        new JoystickButton(controller, Constants.OI.Controller.kToggleIntakeButton).whenPressed(new InstantCommand(() -> intake2.toggle()));
+        new JoystickButton(controller, Constants.OI.Controller.kYoinkButton).whenPressed(new Yoink2(intake2, feeder2));
+        new JoystickButton(controller, Constants.OI.Controller.kYeetButton).whileHeld(new Yeet2(intake2, feeder2));
 
         // Deploy climber button and allow for adjustment
         new JoystickButton(controller, Constants.OI.Controller.kDeployClimberButton).whenPressed(new SequentialCommandGroup(

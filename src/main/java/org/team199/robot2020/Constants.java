@@ -48,7 +48,7 @@ public final class Constants {
         public static final int kClimberLift = 13;
 
         // solenoids
-        public static final int[] kIntakePistons = { 0, 1, 2, 5 };
+        public static final int[] kIntakePistons = { 0, 7, 1, 6 };
 
         // other
         public static final int kAutoPathSwitch1Port = 0;
@@ -65,7 +65,9 @@ public final class Constants {
 
             public static final int kToggleDriveModeButton = 4;
             public static final int kCharacterizedDriveButton = 5;
-            public static final int kSlowDriveButton = 2;
+            public static final int kSlowDriveButton = 6;
+            public static final int kToggleIntakeButton = 2;
+            public static final int kYeetButton = 1;
         }
 
         public static final class RightJoy {
@@ -73,6 +75,9 @@ public final class Constants {
 
             public static final int kAlignAndShootButton = 2;
             public static final int kSlowDriveButton = 5;
+            public static final int kYoinkButton = 1;
+
+            public static final int kToggleBreakModeButton = 3;
         }
 
         public static final class Controller {
@@ -97,9 +102,9 @@ public final class Constants {
             public static final int kAdjustClimberDownButton = 0; // TODO: change button    
 
             // intake/feeder
-            public static final int kIntakeButton = X;
-            public static final int kOuttakeButton = A;
-            public static final int kRegurgitateButton = B;
+            public static final int kToggleIntakeButton = X;
+            public static final int kYoinkButton = A;
+            public static final int kYeetButton = B;
         }
     }
 }
