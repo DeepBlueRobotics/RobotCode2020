@@ -9,8 +9,10 @@ import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
+import org.team199.robot2020.subsystems.Feeder2;
+
 public class Intake2 extends SubsystemBase {
-    private static double kIntakeSpeed = 1;
+    private static double kIntakeSpeed = .5;
     public static double kTimeToDeploy = 2;
 
     private final CANSparkMax rollerMotor = MotorControllerFactory.createSparkMax(Constants.Drive.kIntakeRoller);

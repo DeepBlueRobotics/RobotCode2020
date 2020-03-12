@@ -84,7 +84,7 @@ final class DataLog {
             }
             TimeLog.endDataLogCycle();
         }
-        putSmartDashboardData();
+        // putSmartDashboardData();
     }
 
     /**

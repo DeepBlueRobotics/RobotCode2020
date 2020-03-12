@@ -15,16 +15,17 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import org.team199.lib.Limelight;
 
 import org.team199.lib.RobotPath;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import org.team199.robot2020.commands.TeleopDrive;
 import org.team199.robot2020.commands.Yeet2;
 import org.team199.robot2020.commands.Yoink2;
+import org.team199.robot2020.commands.Shoot1;
 import org.team199.robot2020.commands.Shoot2;
 import org.team199.robot2020.commands.ShooterHorizontalAim;
 import org.team199.robot2020.commands.StoreCells;
@@ -34,7 +35,9 @@ import org.team199.robot2020.commands.AdjustClimber;
 import org.team199.robot2020.commands.AutoShootAndDrive;
 import org.team199.robot2020.commands.DeployClimber;
 import org.team199.robot2020.commands.RaiseRobot;
+import org.team199.robot2020.subsystems.Feeder1;
 import org.team199.robot2020.subsystems.Feeder2;
+import org.team199.robot2020.subsystems.Intake1;
 import org.team199.robot2020.subsystems.Intake2;
 import org.team199.robot2020.subsystems.Climber;
 
@@ -50,7 +53,9 @@ public class RobotContainer {
     private final DigitalInput autoSwitch2 = new DigitalInput(Constants.Drive.kAutoPathSwitch2Port);
     private final Drivetrain drivetrain = new Drivetrain();
     private final Shooter shooter = new Shooter();
+    //private final Intake1 intake1 = new Intake1();
     private final Intake2 intake2 = new Intake2();
+    //private final Feeder1 feeder1 = new Feeder1();
     private final Feeder2 feeder2 = new Feeder2();
     private final Joystick leftJoy = new Joystick(Constants.OI.LeftJoy.kPort);
     private final Joystick rightJoy = new Joystick(Constants.OI.RightJoy.kPort);
@@ -121,7 +126,7 @@ public class RobotContainer {
 
     private void configureButtonBindingsRightJoy() {
         // Align the robot and then shoots
-        new JoystickButton(rightJoy, Constants.OI.RightJoy.kAlignAndShootButton).whileHeld(new SequentialCommandGroup(new ShooterHorizontalAim(drivetrain, lime), new Shoot2(feeder2)));
+        new JoystickButton(rightJoy, Constants.OI.RightJoy.kAlignAndShootButton).whileHeld(new SequentialCommandGroup(new ShooterHorizontalAim(drivetrain, lime), new Shoot2(intake2, feeder2)));
         
         // toggle break mode
         new JoystickButton(rightJoy, Constants.OI.RightJoy.kToggleBreakModeButton).whenPressed(new InstantCommand(drivetrain::toggleBreakMode, drivetrain));

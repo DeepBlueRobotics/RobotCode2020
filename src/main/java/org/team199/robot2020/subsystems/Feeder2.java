@@ -25,11 +25,11 @@ public class Feeder2 extends SubsystemBase {
   private final TimeOfFlight outSensor = new TimeOfFlight(Constants.Drive.kFeederOutSensor);
 
   private static double kFunnelSpeed = 1;
-  private static double kHopperIntakeSpeed = .5;
-  private static double kHopperShootSpeed = 1;
-  private static double kInSensorDistance = Units.inchesToMeters(4)*1000;
-  private static double kOutSensorDistance = Units.inchesToMeters(6)*1000;
-  
+  private static double kHopperIntakeSpeed = .3;
+  private static double kHopperShootSpeed =  1;
+  private static double kInSensorDistance = 200;
+  private static double kOutSensorDistance = 130;
+
   public Feeder2() {
     hopperMotor.setSmartCurrentLimit(30);
     funnelMotor.setSmartCurrentLimit(30);
