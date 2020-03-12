@@ -21,7 +21,7 @@ public class ShooterHorizontalAim extends CommandBase {
     }
 
     public void execute() {
-        double adjustment = limelight.steeringAssist(drivetrain.getOdometry().getPoseMeters());
+        double adjustment = -limelight.steeringAssist(drivetrain.getOdometry().getPoseMeters());
         drivetrain.tankDrive(adjustment, -adjustment, false);
     }
 
@@ -30,6 +30,7 @@ public class ShooterHorizontalAim extends CommandBase {
     }
 
     public void end(boolean interrupted) {
+        System.out.println("I have ended");
         limelight.setLight(false);
     }
 }

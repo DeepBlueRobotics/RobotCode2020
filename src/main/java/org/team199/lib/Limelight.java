@@ -158,7 +158,7 @@ public class Limelight {
       adjustment = 0.0;
     }
 
-    if (Math.abs(tx) < txRange && Math.abs(deltaHeading) < headingThreshold) stopSteer = true;
+    if (tv == 1.0 && Math.abs(tx) < txRange && Math.abs(deltaHeading) < headingThreshold) stopSteer = true;
     else stopSteer = false;
 
     if(stopSteer) {

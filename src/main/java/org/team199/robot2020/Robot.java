@@ -32,6 +32,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(3.0);
     SmartDashboard.putBoolean("Arcade Drive", true);
     SmartDashboard.putBoolean("Characterized Drive", false);
     robotContainer = new RobotContainer();
@@ -98,6 +99,6 @@ public class Robot extends TimedRobot {
     }).start();
     Log.flush();
     Log.setDataLoggingDisabled(true);
-    NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1.0);
+    //NetworkTableInstance.getDefault().getTable("limelight").getEntry("ledMode").setNumber(1.0);
   }
 }
