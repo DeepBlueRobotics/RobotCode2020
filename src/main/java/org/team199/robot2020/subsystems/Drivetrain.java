@@ -134,6 +134,20 @@ public class Drivetrain extends SubsystemBase {
     }
   }
 
+  public void toggleBreakMode() {
+    if(leftMaster.getIdleMode() == IdleMode.kBrake) {
+      leftMaster.setIdleMode(IdleMode.kCoast);
+      leftSlave.setIdleMode(IdleMode.kCoast);
+      rightMaster.setIdleMode(IdleMode.kCoast);
+      rightSlave.setIdleMode(IdleMode.kCoast);
+    } else {
+      leftMaster.setIdleMode(IdleMode.kBrake);
+      leftSlave.setIdleMode(IdleMode.kBrake);
+      rightMaster.setIdleMode(IdleMode.kBrake);
+      rightSlave.setIdleMode(IdleMode.kBrake);
+    }
+  }
+
   public DifferentialDriveOdometry getOdometry() {
     return odometry;
   }
