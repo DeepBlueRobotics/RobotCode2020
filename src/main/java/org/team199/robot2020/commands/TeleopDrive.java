@@ -63,7 +63,7 @@ public class TeleopDrive extends CommandBase {
       }
     } else {
       double left = -leftJoy.getY();
-      double right = -rightJoy.getX();
+      double right = -rightJoy.getY();
 
       if (slowLeft) left *= kSlowDriveSpeed;
       if (slowRight) right *= kSlowDriveRotation;
