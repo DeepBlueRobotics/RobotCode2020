@@ -31,6 +31,7 @@ public class Feeder extends SubsystemBase {
   private static double kOutSensorDistance = Units.inchesToMeters(6)/1000;
   
   public Feeder() {
+    hopperMotor.setInverted(true);
     SmartDashboard.putNumber("Feeder.kFunnelSpeed", kFunnelSpeed);
     SmartDashboard.putNumber("Feeder.kHopperIntakeSpeed", kHopperIntakeSpeed);
     SmartDashboard.putNumber("Feeder.kHopperShootSpeed", kHopperShootSpeed);

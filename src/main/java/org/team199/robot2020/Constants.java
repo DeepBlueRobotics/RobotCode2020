@@ -46,7 +46,7 @@ public final class Constants {
         public static final int kClimberLift = 13;
 
         // solenoids
-        public static final int[] kIntakePistons = { 0, 1, 2, 5 };
+        public static final int[] kIntakePistons = { 0, 1, 6, 7 };
 
         // other
         public static final int kAutoPathSwitch1Port = 0;
@@ -71,6 +71,7 @@ public final class Constants {
 
             public static final int kAlignAndShootButton = 2;
             public static final int kSlowDriveButton = 5;
+            public static final int kShootButton = 4;
         }
 
         public static final class Controller {
