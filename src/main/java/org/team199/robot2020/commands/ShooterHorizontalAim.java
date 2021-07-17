@@ -1,10 +1,10 @@
 package org.team199.robot2020.commands;
 
+import org.team199.robot2020.subsystems.Drivetrain;
+
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-
-import org.team199.lib.Limelight;
-import org.team199.robot2020.subsystems.Drivetrain;
+import frc.robot.lib.Limelight;
 
 public class ShooterHorizontalAim extends CommandBase {
     private final Limelight limelight;
@@ -17,7 +17,7 @@ public class ShooterHorizontalAim extends CommandBase {
     }
 
     public void execute() {
-        double adjustment = limelight.steeringAssist();
+        double adjustment = limelight.steeringAssist(drivetrain.getHeading());
         drivetrain.tankDrive(adjustment, -adjustment, false);
     }
 

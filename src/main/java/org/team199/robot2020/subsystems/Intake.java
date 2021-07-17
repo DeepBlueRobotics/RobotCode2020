@@ -2,12 +2,12 @@ package org.team199.robot2020.subsystems;
 
 import com.revrobotics.CANSparkMax;
 
-import org.team199.lib.MotorControllerFactory;
 import org.team199.robot2020.Constants;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.lib.MotorControllerFactory;
 
 public class Intake extends SubsystemBase {
     private static double kIntakeSpeed = 1;

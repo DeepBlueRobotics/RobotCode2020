@@ -8,35 +8,34 @@
 
 package org.team199.robot2020;
 
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.geometry.Translation2d;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.Command;
-
-import org.team199.lib.Limelight;
-import org.team199.lib.LinearInterpolation;
 import org.team199.lib.RobotPath;
-import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
-import org.team199.robot2020.commands.Regurgitate;
-import org.team199.robot2020.commands.TeleopDrive;
-import org.team199.robot2020.commands.ToggleIntake;
-import org.team199.robot2020.commands.Shoot;
-import org.team199.robot2020.commands.ShooterHorizontalAim;
-import org.team199.robot2020.subsystems.Drivetrain;
-import org.team199.robot2020.subsystems.Shooter;
 import org.team199.robot2020.commands.AdjustClimber;
 import org.team199.robot2020.commands.AutoShootAndDrive;
 import org.team199.robot2020.commands.DeployClimber;
 import org.team199.robot2020.commands.RaiseRobot;
+import org.team199.robot2020.commands.Regurgitate;
+import org.team199.robot2020.commands.Shoot;
+import org.team199.robot2020.commands.ShooterHorizontalAim;
+import org.team199.robot2020.commands.TeleopDrive;
+import org.team199.robot2020.commands.ToggleIntake;
+import org.team199.robot2020.subsystems.Climber;
+import org.team199.robot2020.subsystems.Drivetrain;
 import org.team199.robot2020.subsystems.Feeder;
 import org.team199.robot2020.subsystems.Intake;
-import org.team199.robot2020.subsystems.Climber;
+import org.team199.robot2020.subsystems.Shooter;
+
+import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.lib.Limelight;
+import frc.robot.lib.LinearInterpolation;
 
 /**
  * This class is where the bulk of the robot should be declared. Since

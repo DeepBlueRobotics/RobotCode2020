@@ -10,12 +10,12 @@ package org.team199.robot2020.subsystems;
 import com.playingwithfusion.TimeOfFlight;
 import com.revrobotics.CANSparkMax;
 
-import org.team199.lib.MotorControllerFactory;
 import org.team199.robot2020.Constants;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.lib.MotorControllerFactory;
 
 public class Feeder extends SubsystemBase {
   private final CANSparkMax funnelMotor = MotorControllerFactory.createSparkMax(Constants.Drive.kFeederFunnel);
