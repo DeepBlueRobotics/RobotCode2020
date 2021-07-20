@@ -7,13 +7,13 @@
 
 package org.team199.robot2020.commands;
 
-import org.team199.lib.Limelight;
 import org.team199.robot2020.Constants;
 import org.team199.robot2020.subsystems.Drivetrain;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.lib.Limelight;
 
 public class TeleopDrive extends CommandBase {
   private static final double kSlowDriveSpeed = 0.6;
@@ -63,7 +63,7 @@ public class TeleopDrive extends CommandBase {
       }
     } else {
       double left = -leftJoy.getY();
-      double right = -rightJoy.getX();
+      double right = -rightJoy.getY();
 
       if (slowLeft) left *= kSlowDriveSpeed;
       if (slowRight) right *= kSlowDriveRotation;
@@ -86,14 +86,14 @@ public class TeleopDrive extends CommandBase {
         }
       }
       else if (limelightMode == Limelight.Mode.STEER) {
-        adjustment = lime.steeringAssist();
+        adjustment = lime.steeringAssist(drivetrain.getHeading());
         //final double[] charParams = drivetrain.characterizedDrive(adjustment, -adjustment);
         drivetrain.tankDrive(adjustment, -adjustment, false);
         if (lime.isAligned())  {
           SmartDashboard.putBoolean("Finished Aligning", true);
         }
       } else {
-        final double[] params = lime.autoTarget();
+        final double[] params = lime.autoTarget(drivetrain.getHeading());
         drivetrain.tankDrive(params[0], params[1], false);
         final double maxInput = Math.max(Math.abs(params[0]), Math.abs(params[1]));
         if (maxInput < minError)  {

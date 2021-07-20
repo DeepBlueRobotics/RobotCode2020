@@ -2,8 +2,6 @@ package org.team199.robot2020.commands;
 
 import com.playingwithfusion.TimeOfFlight;
 
-import org.team199.lib.Limelight;
-import org.team199.lib.LinearInterpolation;
 import org.team199.lib.RobotPath;
 import org.team199.robot2020.subsystems.Drivetrain;
 import org.team199.robot2020.subsystems.Feeder;
@@ -14,6 +12,8 @@ import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.lib.Limelight;
+import frc.robot.lib.LinearInterpolation;
 
 public class AutoShootAndDrive extends SequentialCommandGroup {
     public AutoShootAndDrive(Drivetrain drivetrain, Intake intake, Feeder feeder, Shooter shooter, 

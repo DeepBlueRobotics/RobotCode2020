@@ -30,7 +30,8 @@ public class AutoShoot extends CommandBase {
     public void execute() {
         // If shooter is at or near target speed, run the feeder.
         if (shooter.isAtTargetSpeed() && !stopInit) {
-            feeder.eject();
+            //not needed for challenges
+            //feeder.eject();
             stopInit = true;
         }
         // Ball is above the distance sensor and is being fed into the shooter
@@ -51,6 +52,7 @@ public class AutoShoot extends CommandBase {
 
     public void end(boolean interrupted) {
         feeder.stop();
-        feeder.reset();
+        //not needed for challenges
+        //feeder.reset(); 
     }
 }
