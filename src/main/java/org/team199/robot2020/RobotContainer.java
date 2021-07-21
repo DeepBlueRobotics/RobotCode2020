@@ -34,6 +34,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.lib.Limelight;
 import frc.robot.lib.LinearInterpolation;
 
@@ -58,6 +59,7 @@ public class RobotContainer {
     private final Climber climber = new Climber();
     private final RobotPath[] paths;
     private final LinearInterpolation linearInterpol;
+    private Trigger DemoModeTrigger = new Trigger(()-> !SmartDashboard.getBoolean("Demo Mode", false));
 
     public RobotContainer() {
         
@@ -105,21 +107,21 @@ public class RobotContainer {
 
     private void configureButtonBindingsLeftJoy() {
         // Arcade/Tank drive button
-        new JoystickButton(leftJoy, Constants.OI.LeftJoy.kToggleDriveModeButton).whenPressed(new InstantCommand(
+        new JoystickButton(leftJoy, Constants.OI.LeftJoy.kToggleDriveModeButton).and(DemoModeTrigger).whenActive(new InstantCommand(
                 () -> SmartDashboard.putBoolean("Arcade Drive", !SmartDashboard.getBoolean("Arcade Drive", false))));
 
         // characterize drive button
         
         // Toggle Characterize Drive                
-        new JoystickButton(leftJoy, Constants.OI.LeftJoy.kCharacterizedDriveButton).whenPressed(new InstantCommand(
+        new JoystickButton(leftJoy, Constants.OI.LeftJoy.kCharacterizedDriveButton).and(DemoModeTrigger).whenActive(new InstantCommand(
                 () -> SmartDashboard.putBoolean("Characterized Drive", !SmartDashboard.getBoolean("Characterized Drive", false))));
     }
 
     private void configureButtonBindingsRightJoy() {
-        new JoystickButton(rightJoy, 3).whenPressed(new InstantCommand(drivetrain::toggleMode, drivetrain));
+        new JoystickButton(rightJoy, 3).and(DemoModeTrigger).whenActive(new InstantCommand(drivetrain::toggleMode, drivetrain));
         // Align the robot and then shoots
-        new JoystickButton(rightJoy, 3).whenPressed(new InstantCommand(drivetrain::toggleBreakMode, drivetrain));
-        new JoystickButton(rightJoy, Constants.OI.RightJoy.kAlignAndShootButton).whileHeld(new SequentialCommandGroup(new ShooterHorizontalAim(drivetrain, lime), new Shoot(feeder)));
+        new JoystickButton(rightJoy, 3).and(DemoModeTrigger).whenActive(new InstantCommand(drivetrain::toggleBreakMode, drivetrain));
+        new JoystickButton(rightJoy, Constants.OI.RightJoy.kAlignAndShootButton).and(DemoModeTrigger).whileActiveContinuous(new SequentialCommandGroup(new ShooterHorizontalAim(drivetrain, lime), new Shoot(feeder)));
         new JoystickButton(rightJoy, Constants.OI.RightJoy.kShootButton).whileHeld(new Shoot(feeder));
     }
 
@@ -128,16 +130,16 @@ public class RobotContainer {
         new JoystickButton(controller, Constants.OI.Controller.kIntakeButton).whenPressed(new ToggleIntake(intake));
 
         // Power cell regurgitate button
-        new JoystickButton(controller, Constants.OI.Controller.kRegurgitateButton).whileHeld(new Regurgitate(intake, feeder));
+        new JoystickButton(controller, Constants.OI.Controller.kRegurgitateButton).and(DemoModeTrigger).whileActiveContinuous(new Regurgitate(intake, feeder));
 
         // Deploy climber button and allow for adjustment
-        new JoystickButton(controller, Constants.OI.Controller.kDeployClimberButton).whenPressed(new SequentialCommandGroup(
+        new JoystickButton(controller, Constants.OI.Controller.kDeployClimberButton).and(DemoModeTrigger).whenActive(new SequentialCommandGroup(
             new DeployClimber(climber),
             new AdjustClimber(climber, controller)
         ));
 
         // climb button
-        new JoystickButton(controller, Constants.OI.Controller.kRaiseRobotButton).whenPressed(new RaiseRobot(climber));
+        new JoystickButton(controller, Constants.OI.Controller.kRaiseRobotButton).and(DemoModeTrigger).whenActive(new RaiseRobot(climber));
     }
 
     public Command getAutonomousCommand() {

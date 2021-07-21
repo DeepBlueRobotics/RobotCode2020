@@ -4,7 +4,6 @@
 /* must be accompanied by the FIRST BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
-
 package org.team199.robot2020.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
@@ -94,6 +93,8 @@ public class Drivetrain extends SubsystemBase {
   private double prevRightVel = 0;
 
   public Drivetrain() {
+    SmartDashboard.putBoolean("Demo Mode", true);
+    SmartDashboard.putNumber("Demo Speed/Rotation", 0.1);
     leftSlave.follow(leftMaster);
     rightSlave.follow(rightMaster);
     leftMaster.setInverted(true);

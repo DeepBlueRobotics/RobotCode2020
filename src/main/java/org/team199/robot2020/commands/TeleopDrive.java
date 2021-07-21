@@ -18,6 +18,7 @@ import frc.robot.lib.Limelight;
 public class TeleopDrive extends CommandBase {
   private static final double kSlowDriveSpeed = 0.6;
   private static final double kSlowDriveRotation = 0.6;
+  
 
   private final Drivetrain drivetrain;
   private final Joystick leftJoy, rightJoy;
@@ -53,6 +54,10 @@ public class TeleopDrive extends CommandBase {
       if (Math.abs(speed) < 0.001) { speed = 0.0; }
       if (Math.abs(rotation) < 0.001) { rotation = 0.0; }
 
+      if (SmartDashboard.getBoolean("Demo Mode", false)) {
+        speed *= SmartDashboard.getNumber("Demo Speed/Rotation", 0.1);
+        rotation *=SmartDashboard.getNumber("Demo Speed/Rotation", 0.1);
+      }
       if (slowLeft) speed *= kSlowDriveSpeed;
       if (slowRight) rotation *= kSlowDriveRotation;
 
