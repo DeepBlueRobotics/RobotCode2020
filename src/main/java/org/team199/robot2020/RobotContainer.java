@@ -121,7 +121,7 @@ public class RobotContainer {
         new JoystickButton(rightJoy, 3).and(DemoModeTrigger).whenActive(new InstantCommand(drivetrain::toggleMode, drivetrain));
         // Align the robot and then shoots
         new JoystickButton(rightJoy, 3).and(DemoModeTrigger).whenActive(new InstantCommand(drivetrain::toggleBreakMode, drivetrain));
-        new JoystickButton(rightJoy, Constants.OI.RightJoy.kAlignAndShootButton).and(DemoModeTrigger).whileActiveContinuous(new SequentialCommandGroup(new ShooterHorizontalAim(drivetrain, lime), new Shoot(feeder)));
+        new JoystickButton(rightJoy, Constants.OI.RightJoy.kAlignAndShootButton).whileActiveContinuous(new ShooterHorizontalAim(drivetrain, lime));
         new JoystickButton(rightJoy, Constants.OI.RightJoy.kShootButton).whileHeld(new Shoot(feeder));
     }
 
