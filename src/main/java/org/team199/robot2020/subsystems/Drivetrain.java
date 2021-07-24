@@ -94,7 +94,7 @@ public class Drivetrain extends SubsystemBase {
 
   public Drivetrain() {
     SmartDashboard.putBoolean("Demo Mode", true);
-    SmartDashboard.putNumber("Demo Speed/Rotation", 0.1);
+    SmartDashboard.putNumber("Demo Speed Rotation", 0.4);
     leftSlave.follow(leftMaster);
     rightSlave.follow(rightMaster);
     leftMaster.setInverted(true);

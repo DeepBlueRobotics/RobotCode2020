@@ -55,8 +55,8 @@ public class TeleopDrive extends CommandBase {
       if (Math.abs(rotation) < 0.001) { rotation = 0.0; }
 
       if (SmartDashboard.getBoolean("Demo Mode", false)) {
-        speed *= SmartDashboard.getNumber("Demo Speed/Rotation", 0.1);
-        rotation *=SmartDashboard.getNumber("Demo Speed/Rotation", 0.1);
+        speed *= SmartDashboard.getNumber("Demo Speed Rotation", 0.4);
+        rotation *=SmartDashboard.getNumber("Demo Speed Rotation", 0.4);
       }
       if (slowLeft) speed *= kSlowDriveSpeed;
       if (slowRight) rotation *= kSlowDriveRotation;
