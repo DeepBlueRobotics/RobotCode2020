@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.lib.MotorControllerFactory;
 
 public class Intake extends SubsystemBase {
-    private static double kIntakeSpeed = 1;
+    private static double kIntakeSpeed = .5;
     public static double kTimeToDeploy = 2;
 
     private final CANSparkMax rollerMotor = MotorControllerFactory.createSparkMax(Constants.Drive.kIntakeRoller);
