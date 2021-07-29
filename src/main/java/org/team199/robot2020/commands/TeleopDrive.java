@@ -49,7 +49,7 @@ public class TeleopDrive extends CommandBase {
     boolean slowRight = rightJoy.getRawButton(Constants.OI.RightJoy.kSlowDriveButton);
 
     if (SmartDashboard.getBoolean("Arcade Drive", true)) {
-      double speed = -leftJoy.getY();
+      double speed = -rightJoy.getY();
       double rotation = rightJoy.getX();
       if (Math.abs(speed) < 0.001) { speed = 0.0; }
       if (Math.abs(rotation) < 0.001) { rotation = 0.0; }

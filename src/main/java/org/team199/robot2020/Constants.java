@@ -64,7 +64,6 @@ public final class Constants {
             public static final int kToggleDriveModeButton = 4;
             public static final int kCharacterizedDriveButton = 5;
             public static final int kSlowDriveButton = 2;
-            public static final int kIntakeButton = 1;
         }
 
         public static final class RightJoy {
@@ -73,6 +72,7 @@ public final class Constants {
             public static final int kAlignAndShootButton = 2;
             public static final int kSlowDriveButton = 5;
             public static final int kShootButton = 1;
+            public static final int kIntakeButton = 4;
         }
 
         public static final class Controller {

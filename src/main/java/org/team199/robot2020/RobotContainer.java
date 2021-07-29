@@ -106,8 +106,6 @@ public class RobotContainer {
     }
 
     private void configureButtonBindingsLeftJoy() {
-        // Intake toggle button
-        new JoystickButton(leftJoy, Constants.OI.LeftJoy.kIntakeButton).whenPressed(new ToggleIntake(intake));
         // Arcade/Tank drive button
         new JoystickButton(leftJoy, Constants.OI.LeftJoy.kToggleDriveModeButton).and(DemoModeTrigger).whenActive(new InstantCommand(
                 () -> SmartDashboard.putBoolean("Arcade Drive", !SmartDashboard.getBoolean("Arcade Drive", false))));
@@ -120,6 +118,8 @@ public class RobotContainer {
     }
 
     private void configureButtonBindingsRightJoy() {
+        // Intake toggle button
+        new JoystickButton(leftJoy, Constants.OI.RightJoy.kIntakeButton).whenPressed(new ToggleIntake(intake));
         new JoystickButton(rightJoy, 3).and(DemoModeTrigger).whenActive(new InstantCommand(drivetrain::toggleMode, drivetrain));
         // Align the robot and then shoots
         new JoystickButton(rightJoy, 3).and(DemoModeTrigger).whenActive(new InstantCommand(drivetrain::toggleBreakMode, drivetrain));
