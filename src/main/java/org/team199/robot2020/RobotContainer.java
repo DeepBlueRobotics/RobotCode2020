@@ -119,7 +119,7 @@ public class RobotContainer {
 
     private void configureButtonBindingsRightJoy() {
         // Intake toggle button
-        new JoystickButton(leftJoy, Constants.OI.RightJoy.kIntakeButton).whenPressed(new ToggleIntake(intake));
+        new JoystickButton(rightJoy, Constants.OI.RightJoy.kIntakeButton).whenPressed(new ToggleIntake(intake));
         new JoystickButton(rightJoy, 3).and(DemoModeTrigger).whenActive(new InstantCommand(drivetrain::toggleMode, drivetrain));
         // Align the robot and then shoots
         new JoystickButton(rightJoy, 3).and(DemoModeTrigger).whenActive(new InstantCommand(drivetrain::toggleBreakMode, drivetrain));
