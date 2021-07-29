@@ -64,6 +64,7 @@ public final class Constants {
             public static final int kToggleDriveModeButton = 4;
             public static final int kCharacterizedDriveButton = 5;
             public static final int kSlowDriveButton = 2;
+            public static final int kIntakeButton = 1;
         }
 
         public static final class RightJoy {
@@ -71,7 +72,7 @@ public final class Constants {
 
             public static final int kAlignAndShootButton = 2;
             public static final int kSlowDriveButton = 5;
-            public static final int kShootButton = 4;
+            public static final int kShootButton = 1;
         }
 
         public static final class Controller {
@@ -96,7 +97,6 @@ public final class Constants {
             public static final int kAdjustClimberDownButton = 0; // TODO: change button    
 
             // intake/feeder
-            public static final int kIntakeButton = X;
             public static final int kOuttakeButton = A;
             public static final int kRegurgitateButton = B;
         }

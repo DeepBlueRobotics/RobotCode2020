@@ -127,7 +127,7 @@ public class RobotContainer {
 
     private void configureButtonBindingsController() {
         // Intake toggle button
-        new JoystickButton(controller, Constants.OI.Controller.kIntakeButton).whenPressed(new ToggleIntake(intake));
+        new JoystickButton(controller, Constants.OI.LeftJoy.kIntakeButton).whenPressed(new ToggleIntake(intake));
 
         // Power cell regurgitate button
         new JoystickButton(controller, Constants.OI.Controller.kRegurgitateButton).and(DemoModeTrigger).whileActiveContinuous(new Regurgitate(intake, feeder));
