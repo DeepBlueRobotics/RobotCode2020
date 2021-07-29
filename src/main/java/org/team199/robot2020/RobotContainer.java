@@ -106,6 +106,8 @@ public class RobotContainer {
     }
 
     private void configureButtonBindingsLeftJoy() {
+        // Intake toggle button
+        new JoystickButton(leftJoy, Constants.OI.LeftJoy.kIntakeButton).whenPressed(new ToggleIntake(intake));
         // Arcade/Tank drive button
         new JoystickButton(leftJoy, Constants.OI.LeftJoy.kToggleDriveModeButton).and(DemoModeTrigger).whenActive(new InstantCommand(
                 () -> SmartDashboard.putBoolean("Arcade Drive", !SmartDashboard.getBoolean("Arcade Drive", false))));
@@ -126,8 +128,6 @@ public class RobotContainer {
     }
 
     private void configureButtonBindingsController() {
-        // Intake toggle button
-        new JoystickButton(controller, Constants.OI.LeftJoy.kIntakeButton).whenPressed(new ToggleIntake(intake));
 
         // Power cell regurgitate button
         new JoystickButton(controller, Constants.OI.Controller.kRegurgitateButton).and(DemoModeTrigger).whileActiveContinuous(new Regurgitate(intake, feeder));
