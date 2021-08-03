@@ -1,5 +1,6 @@
 package org.team199.robot2020.subsystems;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANSparkMax;
 
 import org.team199.robot2020.Constants;
@@ -26,11 +27,13 @@ public class Climber extends SubsystemBase {
 
     private final CANSparkMax liftMotor = MotorControllerFactory.createSparkMax(Constants.Drive.kClimberLift);
     private final CANSparkMax winchMotor = MotorControllerFactory.createSparkMax(Constants.Drive.kClimberWinch);
+    private final CANEncoder liftMotorEncoder = liftMotor.getEncoder();
+    private final CANEncoder winchMotorEncoder = winchMotor.getEncoder();
 
     public Climber(){
-        liftMotor.getEncoder().setPositionConversionFactor(kLiftConversionFactor);
-        winchMotor.getEncoder().setPositionConversionFactor(kWinchConversionFactor);
-        winchMotor.getEncoder().setPosition(kWinchStartHeight);
+        liftMotorEncoder.setPositionConversionFactor(kLiftConversionFactor);
+        winchMotorEncoder.setPositionConversionFactor(kWinchConversionFactor);
+        winchMotorEncoder.setPosition(kWinchStartHeight);
 
         SmartDashboard.putNumber("Climber.kLiftDeploySpeed", kLiftDeploySpeed);
         SmartDashboard.putNumber("Climber.kWinchDeploySpeed", kWinchDeploySpeed);
@@ -58,10 +61,10 @@ public class Climber extends SubsystemBase {
     }
 
     public double getLiftHeight() {
-        return liftMotor.getEncoder().getPosition();
+        return liftMotorEncoder.getPosition();
     }
 
     public double getWinchHeight() {
-        return winchMotor.getEncoder().getPosition();
+        return winchMotorEncoder.getPosition();
     }
 }
