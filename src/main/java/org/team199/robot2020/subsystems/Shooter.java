@@ -78,6 +78,9 @@ public class Shooter extends SubsystemBase {
         
         SmartDashboard.putNumber("Speed Spark Max Port 2", master.getEncoder().getVelocity());
         SmartDashboard.putNumber("Speed Spark Max Port 4", slave.getEncoder().getVelocity());
+        
+        SmartDashboard.putNumber("Temperature Spark Max Port 2", master.getMotorTemperature());
+        SmartDashboard.putNumber("Temperature Spark Max Port 4", slave.getMotorTemperature());
     }
 
     public void setSpeed(double speed) {
