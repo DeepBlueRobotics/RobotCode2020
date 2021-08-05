@@ -81,9 +81,17 @@ public class Shooter extends SubsystemBase {
         
         SmartDashboard.putNumber("Speed Spark Max Port 2", masterEncoder.getVelocity());
         SmartDashboard.putNumber("Speed Spark Max Port 4", slaveEncoder.getVelocity());
+        SmartDashboard.putNumber("Current Spark Max Port 2", master.getOutputCurrent());
+        SmartDashboard.putNumber("Current Spark Max Port 4", slave.getOutputCurrent());
         
         SmartDashboard.putNumber("Temperature Spark Max Port 2", master.getMotorTemperature());
         SmartDashboard.putNumber("Temperature Spark Max Port 4", slave.getMotorTemperature());
+        if(master.getMotorTemperature() >= Constants.TEMPMAX || slave.getMotorTemperature() >= Constants.TEMPMAX)
+        {
+            master.setSmartCurrentLimit(1);
+            slave.setSmartCurrentLimit(1);
+            System.err.println("ERROR: MOTOR OVERHEATED. Please Cool Off Motor and Restart Robot");
+        }
     }
 
     public void setSpeed(double speed) {

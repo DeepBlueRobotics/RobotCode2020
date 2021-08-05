@@ -18,6 +18,7 @@ package org.team199.robot2020;
  * wherever the constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    public static final int TEMPMAX = 100;
     /**
      * Constants for motor ports and IDs, solenoid ports, sensor numbers, etc.
      * Analagous to RobotMap.java in previous years.
