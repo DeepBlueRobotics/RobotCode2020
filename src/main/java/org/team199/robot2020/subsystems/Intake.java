@@ -53,7 +53,7 @@ public class Intake extends SubsystemBase {
 
     public void retract() {
         intakePistons1.set(DoubleSolenoid.Value.kForward);
-        intakePistons2.set(DoubleSolenoid.Value.kReverse);
+        intakePistons2.set(DoubleSolenoid.Value.kForward);
         deployed = false;
     }
 

@@ -1,9 +1,9 @@
 package org.team199.robot2020.subsystems;
 
+import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
-
 import org.team199.robot2020.Constants;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -28,7 +28,9 @@ public class Shooter extends SubsystemBase {
     private final double speedOffset = 100;
 
     private final CANSparkMax master = MotorControllerFactory.createSparkMax(Constants.Drive.kShooterMaster);
+    private final CANEncoder masterEncoder = master.getEncoder();
     private final CANSparkMax slave = MotorControllerFactory.createSparkMax(Constants.Drive.kShooterSlave);
+    private final CANEncoder slaveEncoder = slave.getEncoder();
     private final CANPIDController pidController = master.getPIDController();
 
     private final Limelight lime;
@@ -52,8 +54,8 @@ public class Shooter extends SubsystemBase {
         
         slave.follow(master, true);
         master.setInverted(true);
-        Log.registerDoubleVar("Spark Max Port 2 Speed", () -> master.getEncoder().getVelocity());
-        Log.registerDoubleVar("Spark Max Port 4 Speed", () -> slave.getEncoder().getVelocity());
+        Log.registerDoubleVar("Spark Max Port 2 Speed", () -> masterEncoder.getVelocity());
+        Log.registerDoubleVar("Spark Max Port 4 Speed", () -> slaveEncoder.getVelocity());
     }
 
     public void periodic()  {
@@ -76,8 +78,8 @@ public class Shooter extends SubsystemBase {
         if (ld != lime.getPIDController().getD()) lime.getPIDController().setD(ld);
         pidController.setReference(getTargetSpeed(), ControlType.kVelocity, 0, calculateFeedForward(getTargetSpeed()));
         
-        SmartDashboard.putNumber("Speed Spark Max Port 2", master.getEncoder().getVelocity());
-        SmartDashboard.putNumber("Speed Spark Max Port 4", slave.getEncoder().getVelocity());
+        SmartDashboard.putNumber("Speed Spark Max Port 2", masterEncoder.getVelocity());
+        SmartDashboard.putNumber("Speed Spark Max Port 4", slaveEncoder.getVelocity());
         
         SmartDashboard.putNumber("Temperature Spark Max Port 2", master.getMotorTemperature());
         SmartDashboard.putNumber("Temperature Spark Max Port 4", slave.getMotorTemperature());
@@ -92,7 +94,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public boolean isAtTargetSpeed() {
-        return (master.getEncoder().getVelocity() > (kTargetSpeed - speedOffset));
+        return (masterEncoder.getVelocity() > (kTargetSpeed - speedOffset));
     }
 
     public double calculateFeedForward(double velocity) {
