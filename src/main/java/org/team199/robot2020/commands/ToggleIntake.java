@@ -34,7 +34,7 @@ public class ToggleIntake extends CommandBase {
       intake.retract();
       beingDeployed = false;
     } else {
-      intake.doTheFlop();
+      intake.deploy();
       timer.start();
       beingDeployed = true;
     }

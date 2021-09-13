@@ -53,14 +53,14 @@ public class Intake extends SubsystemBase {
 
     public void retract() {
         intakePistons1.set(DoubleSolenoid.Value.kForward);
-        intakePistons2.set(DoubleSolenoid.Value.kForward);
+        intakePistons2.set(DoubleSolenoid.Value.kReverse);
         deployed = false;
     }
 
     // for if we want to try making our intake less rigid
     public void doTheFlop() {
-        intakePistons1.set(DoubleSolenoid.Value.kReverse);
-        intakePistons2.set(DoubleSolenoid.Value.kReverse);
+        intakePistons1.set(DoubleSolenoid.Value.kForward);
+        intakePistons2.set(DoubleSolenoid.Value.kForward);
         deployed = true;
     }
 
