@@ -9,7 +9,7 @@ import frc.robot.lib.Limelight;
 public class ShooterHorizontalAim extends CommandBase {
     private final Limelight limelight;
     private final Drivetrain drivetrain;
-    private final double txRange = 2.0;     // TODO: Determine correct txRange
+    private final double txRange = 1.5;     // TODO: Determine correct txRange
     public ShooterHorizontalAim(Drivetrain drivetrain, Limelight limelight){
         this.drivetrain = drivetrain;
         this.limelight = limelight;

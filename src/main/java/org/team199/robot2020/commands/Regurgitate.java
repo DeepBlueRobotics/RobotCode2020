@@ -28,7 +28,9 @@ public class Regurgitate extends CommandBase {
   @Override
   public void initialize() {
     feeder.outtake();
-    intake.outtake();
+    if(intake.isDeployed()) {
+      intake.outtake();
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.

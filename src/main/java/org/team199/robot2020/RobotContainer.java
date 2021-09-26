@@ -91,15 +91,18 @@ public class RobotContainer {
         }, feeder));
 
         paths = new RobotPath[4];
-        if (DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue) {
-            loadPath(Path.PATH1, "AutoLeft", false, StartingPosition.BLUE_LEFT.pos);
-            loadPath(Path.PATH2, "OneBall", false, StartingPosition.BLUE_CENTER.pos);
-            loadPath(Path.PATH3, "AutoRight", false, StartingPosition.BLUE_RIGHT.pos);
-        } else {
-            loadPath(Path.PATH1, "AutoLeft", false, StartingPosition.RED_LEFT.pos);
-            loadPath(Path.PATH2, "OneBall", false, StartingPosition.RED_CENTER.pos);
-            loadPath(Path.PATH3, "AutoRight", false, StartingPosition.RED_RIGHT.pos);
-        }
+        loadPath(Path.PATH1, "AutoLeft", false);
+        loadPath(Path.PATH2, "AutoCenter", false);
+        loadPath(Path.PATH3, "AutoRight", false);
+        // if (DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue) {
+        //     loadPath(Path.PATH1, "AutoLeft", false, new Translation2d());
+        //     loadPath(Path.PATH2, "AutoCenter", false, StartingPosition.BLUE_CENTER.pos);
+        //     loadPath(Path.PATH3, "AutoRight", false, StartingPosition.BLUE_RIGHT.pos);
+        // } else {
+        //     loadPath(Path.PATH1, "AutoLeft", false, StartingPosition.RED_LEFT.pos);
+        //     loadPath(Path.PATH2, "AutoCenter", false, StartingPosition.RED_CENTER.pos);
+        //     loadPath(Path.PATH3, "AutoRight", false, StartingPosition.RED_RIGHT.pos);
+        // }
         linearInterpol = new LinearInterpolation("ShooterData.csv");
     }
 
@@ -128,7 +131,7 @@ public class RobotContainer {
         // Intake toggle button
         new JoystickButton(controller, Constants.OI.Controller.kIntakeButton).whenPressed(new ToggleIntake(intake));
 
-        // Power cell regurgitate button
+        // Power cell regurhttps://github.com/DeepBlueRobotics/RobotCode2020.gitgitate button
         new JoystickButton(controller, Constants.OI.Controller.kRegurgitateButton).whileHeld(new Regurgitate(intake, feeder));
 
         // Deploy climber button and allow for adjustment
@@ -152,6 +155,7 @@ public class RobotContainer {
                                          shooter, lime, path, 
                                          linearInterpol, (isBlue ? Target.BLUE_PORT.pos : Target.RED_PORT.pos));
         } catch(final Exception e) {
+            e.printStackTrace();
             return new InstantCommand();
         }
     }
@@ -191,7 +195,10 @@ public class RobotContainer {
         return outPath;
     }
 
-        
+    private void loadPath(final Path path, final String pathName, final boolean isInverted) {
+        loadPath(path, pathName, isInverted, new Translation2d());
+    }
+
     private void loadPath(final Path path, final String pathName, final boolean isInverted, final Translation2d initPos) {
         try {
             paths[path.idx] = new RobotPath(pathName, drivetrain, isInverted, initPos);
