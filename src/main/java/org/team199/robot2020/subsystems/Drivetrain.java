@@ -210,6 +210,10 @@ public class Drivetrain extends SubsystemBase {
     diffDrive.arcadeDrive(speed, rotation);
   }
 
+  public void tankDrive(double left, double right) {
+    tankDrive(left, right, false);
+  }
+
   public void tankDrive(double left, double right, boolean squareInputs) {
     diffDrive.tankDrive(left, right, squareInputs);
     diffDrive.feed();

@@ -18,6 +18,7 @@ public class AutoShootAndDrive extends SequentialCommandGroup {
         addRequirements(drivetrain, intake, feeder, shooter);
 
         addCommands(
+            new InstantCommand(path::loadOdometry),
             new ShooterHorizontalAim(drivetrain, lime),
             // new InstantCommand(() -> { 
             //     SmartDashboard.putNumber("Shooter.kTargetSpeed", linearInterpol.calculate(drivetrain.getOdometry().getPoseMeters().getTranslation().getDistance(target))); 
@@ -25,7 +26,7 @@ public class AutoShootAndDrive extends SequentialCommandGroup {
             new AutoShoot(feeder, shooter),
             new AutoShoot(feeder, shooter),
             new AutoShoot(feeder, shooter),
-            new ShooterHorizontalAim(drivetrain, lime),
+            // new ShooterHorizontalAim(drivetrain, lime),
             new InstantCommand(() -> {
                 intake.intake();
                 intake.deploy();

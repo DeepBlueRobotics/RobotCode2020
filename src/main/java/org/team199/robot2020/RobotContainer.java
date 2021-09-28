@@ -91,9 +91,9 @@ public class RobotContainer {
         }, feeder));
 
         paths = new RobotPath[4];
-        loadPath(Path.PATH1, "AutoLeft", false);
-        loadPath(Path.PATH2, "AutoCenter", false);
-        loadPath(Path.PATH3, "AutoRight", false);
+        loadPath(Path.PATH1, "AutoTrench", false);
+        loadPath(Path.PATH2, "AutoPowerPort", false);
+        loadPath(Path.PATH3, "AutoLoadingBay", false);
         // if (DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue) {
         //     loadPath(Path.PATH1, "AutoLeft", false, new Translation2d());
         //     loadPath(Path.PATH2, "AutoCenter", false, StartingPosition.BLUE_CENTER.pos);
