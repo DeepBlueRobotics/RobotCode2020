@@ -131,7 +131,7 @@ public class RobotContainer {
         // Intake toggle button
         new JoystickButton(controller, Constants.OI.Controller.kIntakeButton).whenPressed(new ToggleIntake(intake));
 
-        // Power cell regurhttps://github.com/DeepBlueRobotics/RobotCode2020.gitgitate button
+        // Power cell regurgitate button
         new JoystickButton(controller, Constants.OI.Controller.kRegurgitateButton).whileHeld(new Regurgitate(intake, feeder));
 
         // Deploy climber button and allow for adjustment
