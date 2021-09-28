@@ -40,6 +40,8 @@ public class AutoShootAndDrive extends SequentialCommandGroup {
             // new InstantCommand(() -> { 
             //     SmartDashboard.putNumber("Shooter.kTargetSpeed", linearInterpol.calculate(drivetrain.getOdometry().getPoseMeters().getTranslation().getDistance(target))); 
             // }),
+            new AutoShoot(feeder, shooter),
+            new AutoShoot(feeder, shooter),
             new AutoShoot(feeder, shooter)
         );
     }
