@@ -16,7 +16,7 @@ public class AutoShoot extends SequentialCommandGroup {
         addCommands(
             new WaitUntilCommand(shooter::isAtTargetSpeed),
             new ParallelRaceGroup(
-                new Shoot(feeder),
+                new Shoot(shooter, feeder),
                 new WaitUntilCommand(() -> !shooter.isAtTargetSpeed()),
                 new WaitCommand(2)
             ),

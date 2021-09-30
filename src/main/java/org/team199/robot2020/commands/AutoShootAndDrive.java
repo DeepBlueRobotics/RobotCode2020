@@ -35,14 +35,14 @@ public class AutoShootAndDrive extends SequentialCommandGroup {
             new InstantCommand(() -> {
                 intake.retract();
                 intake.stop();
-            }, intake),
-            new ShooterHorizontalAim(drivetrain, lime),
+            }, intake)
+            // new ShooterHorizontalAim(drivetrain, lime),
             // new InstantCommand(() -> { 
             //     SmartDashboard.putNumber("Shooter.kTargetSpeed", linearInterpol.calculate(drivetrain.getOdometry().getPoseMeters().getTranslation().getDistance(target))); 
             // }),
-            new AutoShoot(feeder, shooter),
-            new AutoShoot(feeder, shooter),
-            new AutoShoot(feeder, shooter)
+            // new AutoShoot(feeder, shooter),
+            // new AutoShoot(feeder, shooter),
+            // new AutoShoot(feeder, shooter)
         );
     }
 }

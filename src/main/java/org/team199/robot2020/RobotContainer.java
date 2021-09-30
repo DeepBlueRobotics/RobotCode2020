@@ -61,23 +61,23 @@ public class RobotContainer {
 
     public RobotContainer() {
         
-        if(DriverStation.getInstance().getJoystickName(0).length() != 0) {
+        // if(DriverStation.getInstance().getJoystickName(0).length() != 0) {
             configureButtonBindingsLeftJoy();
-        } else{
-            System.err.println("ERROR: Dude, you're missing the left joystick.");
-        }
+        // } else{
+        //     System.err.println("ERROR: Dude, you're missing the left joystick.");
+        // }
 
-        if(DriverStation.getInstance().getJoystickName(1).length() != 0) {
+        // if(DriverStation.getInstance().getJoystickName(1).length() != 0) {
             configureButtonBindingsRightJoy();
-        } else{
-            System.err.println("ERROR: Dude, you're missing the right joystick.");
-        }
+        // } else{
+        //     System.err.println("ERROR: Dude, you're missing the right joystick.");
+        // }
 
-        if(DriverStation.getInstance().getJoystickName(2).length() != 0) {
+        // if(DriverStation.getInstance().getJoystickName(2).length() != 0) {
             configureButtonBindingsController();
-        } else{
-            System.err.println("ERROR: Dude, you're missing the controller.");
-        }
+        // } else{
+        //     System.err.println("ERROR: Dude, you're missing the controller.");
+        // }
 
         shooter.setDefaultCommand(new RunCommand(()-> shooter.setSpeed(shooter.getTargetSpeed()), shooter));
         drivetrain.setDefaultCommand(new TeleopDrive(drivetrain, leftJoy, rightJoy, lime));
@@ -122,9 +122,9 @@ public class RobotContainer {
         new JoystickButton(rightJoy, 3).whenPressed(new InstantCommand(drivetrain::toggleMode, drivetrain));
         // Align the robot and then shoots
         new JoystickButton(rightJoy, 3).whenPressed(new InstantCommand(drivetrain::toggleBreakMode, drivetrain));
-        new JoystickButton(rightJoy, Constants.OI.RightJoy.kAlignAndShootButton).whileHeld(new SequentialCommandGroup(new ShooterHorizontalAim(drivetrain, lime), new Shoot(feeder)));
+        new JoystickButton(rightJoy, Constants.OI.RightJoy.kAlignAndShootButton).whileHeld(new SequentialCommandGroup(new ShooterHorizontalAim(drivetrain, lime), new Shoot(shooter, feeder)));
         // new JoystickButton(rightJoy, Constants.OI.RightJoy.kAlignAndShootButton).whileHeld(new SequentialCommandGroup(new ShooterHorizontalAim(drivetrain, lime)));
-        new JoystickButton(rightJoy, Constants.OI.RightJoy.kShootButton).whileHeld(new Shoot(feeder));
+        new JoystickButton(rightJoy, Constants.OI.RightJoy.kShootButton).whileHeld(new Shoot(shooter, feeder));
     }
 
     private void configureButtonBindingsController() {
