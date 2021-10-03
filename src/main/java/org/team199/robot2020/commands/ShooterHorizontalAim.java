@@ -9,7 +9,7 @@ import frc.robot.lib.Limelight;
 public class ShooterHorizontalAim extends CommandBase {
     private final Limelight limelight;
     private final Drivetrain drivetrain;
-    private final double txRange = 1.0;     // TODO: Determine correct txRange
+    private final double txRange = 0.5;     // TODO: Determine correct txRange
     private double adjustment;
 
     public ShooterHorizontalAim(Drivetrain drivetrain, Limelight limelight){
@@ -20,12 +20,16 @@ public class ShooterHorizontalAim extends CommandBase {
 
     public void execute() {
         adjustment = limelight.steeringAssist(drivetrain.getHeading());
+        if(NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0.0) == 0.0) {
+            adjustment *= 1;
+        }
         drivetrain.tankDrive(adjustment, -adjustment, false);
     }
 
     public boolean isFinished() {
         double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0.0);
         double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0.0);
+        tx += 4;
         return (Math.abs(tx) < txRange) && tv == 1.0 && Math.abs(drivetrain.getEncRate(Drivetrain.Side.LEFT)) + Math.abs(drivetrain.getEncRate(Drivetrain.Side.RIGHT)) < 1;
     }
 }

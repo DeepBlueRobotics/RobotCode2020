@@ -32,6 +32,8 @@ public class Feeder extends SubsystemBase {
   
   public Feeder() {
     hopperMotor.setInverted(true);
+    funnelMotor.setOpenLoopRampRate(120);
+    hopperMotor.setOpenLoopRampRate(120);
     SmartDashboard.putNumber("Feeder.kFunnelSpeed", kFunnelSpeed);
     SmartDashboard.putNumber("Feeder.kHopperIntakeSpeed", kHopperIntakeSpeed);
     SmartDashboard.putNumber("Feeder.kHopperShootSpeed", kHopperShootSpeed);

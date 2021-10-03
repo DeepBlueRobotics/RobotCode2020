@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.csv.CSVFormat;
@@ -34,6 +35,7 @@ public class RobotPath {
 
     private Trajectory trajectory;
     private Drivetrain dt;
+    public final List<Pose2d> poses;
 
     public RobotPath(String pathName, Drivetrain dt, boolean isInverted, Translation2d initPos) throws IOException {
         this(getPointsFromFile(pathName, dt, isInverted, initPos), isInverted, dt);
@@ -44,12 +46,19 @@ public class RobotPath {
     }
 
     public RobotPath(List<Pose2d> poses, TrajectoryConfig config, Drivetrain dt) {
-        this(TrajectoryGenerator.generateTrajectory(poses, config), dt);
+        this(poses, TrajectoryGenerator.generateTrajectory(poses, config), dt);
     }
 
-    public RobotPath(Trajectory trajectory, Drivetrain dt) {
+    public RobotPath(List<Pose2d> poses, Trajectory trajectory, Drivetrain dt) {
+        this.poses = new ArrayList<>(poses);
         this.trajectory = trajectory;
         this.dt = dt;
+    }
+
+    public RobotPath reversed() {
+        List<Pose2d> newPoses = new ArrayList<>(poses);
+        Collections.reverse(newPoses);
+        return new RobotPath(newPoses, true, dt);
     }
 
     public Command getPathCommand() {

@@ -36,6 +36,7 @@ public class AutoShootAndDrive extends SequentialCommandGroup {
                 intake.retract();
                 intake.stop();
             }, intake)
+            // path.reversed().getPathCommand()
             // new ShooterHorizontalAim(drivetrain, lime),
             // new InstantCommand(() -> { 
             //     SmartDashboard.putNumber("Shooter.kTargetSpeed", linearInterpol.calculate(drivetrain.getOdometry().getPoseMeters().getTranslation().getDistance(target))); 

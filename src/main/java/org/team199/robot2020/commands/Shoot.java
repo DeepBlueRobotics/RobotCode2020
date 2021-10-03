@@ -15,7 +15,7 @@ public class Shoot extends CommandBase {
         addRequirements(feeder);
     }
 
-    public void initialize() {
+    public void execute() {
         if(shooter.isAtTargetSpeed()) {
             feeder.shoot();
         } else {
