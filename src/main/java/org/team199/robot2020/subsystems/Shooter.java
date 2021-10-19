@@ -25,7 +25,7 @@ public class Shooter extends SubsystemBase {
     private static double lkD;
 
     private double kTargetSpeed = 4200;
-    private final double speedOffset = 20;
+    private final double speedOffset = 0;
 
     private final CANSparkMax master = MotorControllerFactory.createSparkMax(Constants.Drive.kShooterMaster);
     private final CANEncoder masterEncoder = master.getEncoder();

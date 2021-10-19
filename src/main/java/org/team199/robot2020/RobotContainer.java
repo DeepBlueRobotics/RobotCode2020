@@ -18,6 +18,7 @@ import org.team199.robot2020.commands.Shoot;
 import org.team199.robot2020.commands.ShooterHorizontalAim;
 import org.team199.robot2020.commands.TeleopDrive;
 import org.team199.robot2020.commands.ToggleIntake;
+import org.team199.robot2020.commands.ShooterHorizontalAim.SpinDirection;
 import org.team199.robot2020.subsystems.Climber;
 import org.team199.robot2020.subsystems.Drivetrain;
 import org.team199.robot2020.subsystems.Feeder;
@@ -58,6 +59,7 @@ public class RobotContainer {
     private final Climber climber = new Climber();
     private final RobotPath[] paths;
     private final LinearInterpolation linearInterpol;
+    private SpinDirection spinDirection = SpinDirection.CLOCKWISE;
 
     public RobotContainer() {
         
@@ -90,7 +92,7 @@ public class RobotContainer {
             }
         }, feeder));
 
-        paths = new RobotPath[4];
+        paths = new RobotPath[3];
         loadPath(Path.PATH1, "AutoTrench", false);
         loadPath(Path.PATH2, "AutoPowerPort", false);
         loadPath(Path.PATH3, "AutoLoadingBay", false);
@@ -122,7 +124,7 @@ public class RobotContainer {
         new JoystickButton(rightJoy, 3).whenPressed(new InstantCommand(drivetrain::toggleMode, drivetrain));
         // Align the robot and then shoots
         new JoystickButton(rightJoy, 3).whenPressed(new InstantCommand(drivetrain::toggleBreakMode, drivetrain));
-        new JoystickButton(rightJoy, Constants.OI.RightJoy.kAlignAndShootButton).whileHeld(new SequentialCommandGroup(new ShooterHorizontalAim(drivetrain, lime), new Shoot(shooter, feeder)));
+        new JoystickButton(rightJoy, Constants.OI.RightJoy.kAlignAndShootButton).whileHeld(new SequentialCommandGroup(new ShooterHorizontalAim(drivetrain, lime, spinDirection), new Shoot(shooter, feeder)));
         // new JoystickButton(rightJoy, Constants.OI.RightJoy.kAlignAndShootButton).whileHeld(new SequentialCommandGroup(new ShooterHorizontalAim(drivetrain, lime)));
         new JoystickButton(rightJoy, Constants.OI.RightJoy.kShootButton).whileHeld(new Shoot(shooter, feeder));
     }
@@ -147,12 +149,13 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         try {
             final RobotPath path = paths[getPath().idx];
+            final RobotPath reversePath = paths[Path.PATH1.idx].reversed();
             if(path == null) {
                 throw new Exception();
             }
             boolean isBlue = DriverStation.getInstance().getAlliance() == DriverStation.Alliance.Blue;
             return new AutoShootAndDrive(drivetrain, intake, feeder, 
-                                         shooter, lime, path, 
+                                         shooter, lime, path, reversePath, spinDirection,
                                          linearInterpol, (isBlue ? Target.BLUE_PORT.pos : Target.RED_PORT.pos));
         } catch(final Exception e) {
             e.printStackTrace();
@@ -183,6 +186,7 @@ public class RobotContainer {
                 System.out.println("Path3 loaded.");
             } else {
                 outPath = Path.PATH1;
+                spinDirection = SpinDirection.COUNTERCLOCKWISE;
                 System.out.println("Path1 loaded.");
             }
         } else if(!autoSwitch2.get()) {
@@ -192,6 +196,7 @@ public class RobotContainer {
             outPath = Path.OFF;
             System.out.println("No path loaded.");
         }
+        
         return outPath;
     }
 

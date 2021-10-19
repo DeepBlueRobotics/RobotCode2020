@@ -64,7 +64,7 @@ public class RobotPath {
     public Command getPathCommand() {
         RamseteCommand ram = new RamseteCommand(trajectory, 
                                                 () -> dt.getOdometry().getPoseMeters(), 
-                                                new RamseteController(), 
+                                                new RamseteController(2.0,1.0), 
                                                 dt.getKinematics(),
                                                 dt::charDriveDirect,
                                                 dt);

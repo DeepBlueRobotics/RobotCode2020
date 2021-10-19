@@ -10,18 +10,20 @@ public class ShooterHorizontalAim extends CommandBase {
     private final Limelight limelight;
     private final Drivetrain drivetrain;
     private final double txRange = 0.5;     // TODO: Determine correct txRange
+    private final SpinDirection spinDir;
     private double adjustment;
 
-    public ShooterHorizontalAim(Drivetrain drivetrain, Limelight limelight){
+    public ShooterHorizontalAim(Drivetrain drivetrain, Limelight limelight, SpinDirection spinDir){
         this.drivetrain = drivetrain;
         this.limelight = limelight;
+        this.spinDir = spinDir;
         addRequirements(drivetrain);
     }
 
     public void execute() {
         adjustment = limelight.steeringAssist(drivetrain.getHeading());
-        if(NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0.0) == 0.0) {
-            adjustment *= 1;
+        if(NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0.0) == 0.0 && spinDir == SpinDirection.COUNTERCLOCKWISE) {
+            adjustment *= -1;
         }
         drivetrain.tankDrive(adjustment, -adjustment, false);
     }
@@ -31,5 +33,9 @@ public class ShooterHorizontalAim extends CommandBase {
         double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0.0);
         tx += 4;
         return (Math.abs(tx) < txRange) && tv == 1.0 && Math.abs(drivetrain.getEncRate(Drivetrain.Side.LEFT)) + Math.abs(drivetrain.getEncRate(Drivetrain.Side.RIGHT)) < 1;
+    }
+
+    public static enum SpinDirection {
+        CLOCKWISE, COUNTERCLOCKWISE;
     }
 }

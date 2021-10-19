@@ -1,6 +1,7 @@
 package org.team199.robot2020.commands;
 
 import org.team199.lib.RobotPath;
+import org.team199.robot2020.commands.ShooterHorizontalAim.SpinDirection;
 import org.team199.robot2020.subsystems.Drivetrain;
 import org.team199.robot2020.subsystems.Feeder;
 import org.team199.robot2020.subsystems.Intake;
@@ -14,12 +15,12 @@ import frc.robot.lib.LinearInterpolation;
 
 public class AutoShootAndDrive extends SequentialCommandGroup {
     public AutoShootAndDrive(Drivetrain drivetrain, Intake intake, Feeder feeder, Shooter shooter, 
-                             Limelight lime, RobotPath path, LinearInterpolation linearInterpol, Translation2d target) {
+                             Limelight lime, RobotPath path, RobotPath reversePath, ShooterHorizontalAim.SpinDirection spinDirection, LinearInterpolation linearInterpol, Translation2d target) {
         addRequirements(drivetrain, intake, feeder, shooter);
-
+        
         addCommands(
             new InstantCommand(path::loadOdometry),
-            new ShooterHorizontalAim(drivetrain, lime),
+            new ShooterHorizontalAim(drivetrain, lime, spinDirection),
             // new InstantCommand(() -> { 
             //     SmartDashboard.putNumber("Shooter.kTargetSpeed", linearInterpol.calculate(drivetrain.getOdometry().getPoseMeters().getTranslation().getDistance(target))); 
             // }),
@@ -32,18 +33,18 @@ public class AutoShootAndDrive extends SequentialCommandGroup {
                 intake.deploy();
             }, intake),
             path.getPathCommand(),
+            reversePath.getPathCommand(),
+            new ShooterHorizontalAim(drivetrain, lime, SpinDirection.COUNTERCLOCKWISE),
+            // new InstantCommand(() -> { 
+            //     SmartDashboard.putNumber("Shooter.kTargetSpeed", linearInterpol.calculate(drivetrain.getOdometry().getPoseMeters().getTranslation().getDistance(target))); 
+            // }),
+            new AutoShoot(feeder, shooter),
+            new AutoShoot(feeder, shooter),
+            new AutoShoot(feeder, shooter),
             new InstantCommand(() -> {
                 intake.retract();
                 intake.stop();
             }, intake)
-            // path.reversed().getPathCommand()
-            // new ShooterHorizontalAim(drivetrain, lime),
-            // new InstantCommand(() -> { 
-            //     SmartDashboard.putNumber("Shooter.kTargetSpeed", linearInterpol.calculate(drivetrain.getOdometry().getPoseMeters().getTranslation().getDistance(target))); 
-            // }),
-            // new AutoShoot(feeder, shooter),
-            // new AutoShoot(feeder, shooter),
-            // new AutoShoot(feeder, shooter)
         );
     }
 }

@@ -43,7 +43,7 @@ public class Drivetrain extends SubsystemBase {
   public static final double[] kVels = {2.05, 2.02, 2.06, 2.05};  // Volt * seconds / meter
   public static final double[] kAccels = {0.31, 0.253, 0.355, 0.275};  // Volt * seconds^2 / meter
 
-  public static final double kAutoMaxSpeed = 1.0;  // Meters / second
+  public static final double kAutoMaxSpeed = 2.7;  // Meters / second
   public static final double kAutoMaxAccel = 0.847;  // Meters / seconds^2
   public static final double kMaxAccel = 200;  // Inches / seconds^2
   public static final double kMaxSpeed = 5676 * Math.PI * 5 / 6.8 / 60; // Inches / seconds
