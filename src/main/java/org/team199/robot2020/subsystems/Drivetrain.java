@@ -28,8 +28,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.lib.MotorControllerFactory;
+import frc.robot.lib.path.DifferentialDriveInterface;
 
-public class Drivetrain extends SubsystemBase {
+public class Drivetrain extends SubsystemBase implements DifferentialDriveInterface {
   public enum Side {
     LEFT, RIGHT;
   }
@@ -273,5 +274,40 @@ public class Drivetrain extends SubsystemBase {
     prevTime = currentTime;
     prevLeftVel = desiredLeftVel;
     prevRightVel = desiredRightVel;
+  }
+
+  @Override
+  public double getMaxAccelMps2() {
+    return 0.847;
+  }
+
+  @Override
+  public double getMaxSpeedMps() {
+    return 1.0;
+  }
+
+  @Override
+  public double getHeadingDeg() {
+    return getHeading();
+  }
+
+  @Override
+  public void stop() {
+    charDriveTank(0, 0);    
+  }
+
+  @Override
+  public void drive(double left, double right) {
+    charDriveDirect(left, right);
+  }
+
+  @Override
+  public double getMaxVolt() {
+    return 10;
+  }
+
+  @Override
+  public double[][] getCharacterizationValues() {
+    return new double[][] {kVolts, kVels, kAccels};
   }
 }
