@@ -28,8 +28,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.lib.MotorControllerFactory;
+import frc.robot.lib.path.DifferentialDriveInterface;
 
-public class Drivetrain extends SubsystemBase {
+public class Drivetrain extends SubsystemBase implements DifferentialDriveInterface{
   public enum Side {
     LEFT, RIGHT;
   }
@@ -39,16 +40,16 @@ public class Drivetrain extends SubsystemBase {
   private static final double[] kPIDRight = {2.875, 0.0, 0.0};  // PID values for the right PID Contoller for characterization.
 
   // Order of the entries: {Forward-Left, Forward-Right, Backward-Left, Backward-Right}
-  public static final double[] kVolts = {0.23, 0.24, 0.23, 0.224};  // Volts
-  public static final double[] kVels = {2.05, 2.02, 2.06, 2.05};  // Volt * seconds / meter
-  public static final double[] kAccels = {0.31, 0.253, 0.355, 0.275};  // Volt * seconds^2 / meter
+  private static final double[] kVolts = {0.23, 0.24, 0.23, 0.224};  // Volts
+  private static final double[] kVels = {2.05, 2.02, 2.06, 2.05};  // Volt * seconds / meter
+  private static final double[] kAccels = {0.31, 0.253, 0.355, 0.275};  // Volt * seconds^2 / meter
 
-  public static final double kAutoMaxSpeed = 2.7;  // Meters / second
-  public static final double kAutoMaxAccel = 0.847;  // Meters / seconds^2
+  private static final double kAutoMaxSpeed = 2.7;  // Meters / second
+  private static final double kAutoMaxAccel = 0.847;  // Meters / seconds^2
   public static final double kMaxAccel = 200;  // Inches / seconds^2
   public static final double kMaxSpeed = 5676 * Math.PI * 5 / 6.8 / 60; // Inches / seconds
   public static final double kMaxAngularSpeed = 4 * Math.PI; // Radians / second
-  public static final double kAutoMaxVolt = 10.0;   // For Drivetrain voltage constraint in RobotPath.java
+  private static final double kAutoMaxVolt = 10.0;   // For Drivetrain voltage constraint in RobotPath.java
   
   private final CANSparkMax leftMaster = MotorControllerFactory.createSparkMax(Constants.Drive.kDtLeftMaster);
   private final CANSparkMax leftSlave = MotorControllerFactory.createSparkMax(Constants.Drive.kDtLeftSlave);
@@ -107,14 +108,14 @@ public class Drivetrain extends SubsystemBase {
     rightEnc.setVelocityConversionFactor(conversion / 60);
 
     timey.start();
-    odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeading()));
+    odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getHeadingDeg()));
     gyro.reset();
   }
 
   @Override
   public void periodic() {
     // Update the odometry with current heading and encoder position
-    odometry.update(Rotation2d.fromDegrees(getHeading()), 
+    odometry.update(Rotation2d.fromDegrees(getHeadingDeg()), 
                     Units.inchesToMeters(getEncPos(Side.LEFT)), 
                     Units.inchesToMeters(getEncPos(Side.RIGHT)));
   
@@ -122,7 +123,7 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("Odometry Y", odometry.getPoseMeters().getTranslation().getY());
     SmartDashboard.putNumber("Left Encoder Distance", getEncPos(Drivetrain.Side.LEFT));
     SmartDashboard.putNumber("Right Encoder Distance", getEncPos(Drivetrain.Side.RIGHT));
-    SmartDashboard.putNumber("Gyro Heading", getHeading());
+    SmartDashboard.putNumber("Gyro Heading", getHeadingDeg());
   }
 
   public void setOdometry(DifferentialDriveOdometry odometry) {
@@ -152,7 +153,7 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void resetOdometry() {
-    odometry.resetPosition(odometry.getPoseMeters(), Rotation2d.fromDegrees(getHeading()));
+    odometry.resetPosition(odometry.getPoseMeters(), Rotation2d.fromDegrees(getHeadingDeg()));
     resetEncoders();
     isOdometryInit = false;
   }
@@ -171,7 +172,7 @@ public class Drivetrain extends SubsystemBase {
     }
   }
 
-  public double getHeading() {
+  public double getHeadingDeg() {
     return Math.IEEEremainder(gyro.getAngle(), 360) * (isGyroReversed ? -1.0 : 1.0);
   }
 
@@ -231,10 +232,10 @@ public class Drivetrain extends SubsystemBase {
   public void charDriveTank(double left, double right) {
     left = left * Units.inchesToMeters(kMaxSpeed);
     right = right * Units.inchesToMeters(kMaxSpeed);
-    charDriveDirect(left, right);
+    drive(left, right);
   }
 
-  public void charDriveDirect(double left, double right) {
+  public void drive(double left, double right) {
     charDrive(new DifferentialDriveWheelSpeeds(left, right));
   }
 
@@ -273,5 +274,30 @@ public class Drivetrain extends SubsystemBase {
     prevTime = currentTime;
     prevLeftVel = desiredLeftVel;
     prevRightVel = desiredRightVel;
+  }
+
+  @Override
+  public double getMaxAccelMps2() {
+    return kAutoMaxAccel;
+  }
+
+  @Override
+  public double getMaxSpeedMps() {
+    return kAutoMaxSpeed;
+  }
+
+  @Override
+  public void stop() {
+    tankDrive(0, 0);
+  }
+
+  @Override
+  public double getMaxVolt() {
+    return kAutoMaxVolt;
+  }
+
+  @Override
+  public double[][] getCharacterizationValues() {
+    return new double[][] {kVolts,kVels,kAccels};
   }
 }

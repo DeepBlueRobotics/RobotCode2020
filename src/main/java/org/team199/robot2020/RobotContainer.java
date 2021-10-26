@@ -8,7 +8,6 @@
 
 package org.team199.robot2020;
 
-import org.team199.lib.RobotPath;
 import org.team199.robot2020.commands.AdjustClimber;
 import org.team199.robot2020.commands.AutoShootAndDrive;
 import org.team199.robot2020.commands.DeployClimber;
@@ -37,6 +36,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.lib.Limelight;
 import frc.robot.lib.LinearInterpolation;
+import frc.robot.lib.path.RobotPath;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -49,7 +49,7 @@ public class RobotContainer {
     private final DigitalInput autoSwitch1 = new DigitalInput(Constants.Drive.kAutoPathSwitch1Port);
     private final DigitalInput autoSwitch2 = new DigitalInput(Constants.Drive.kAutoPathSwitch2Port);
     final Drivetrain drivetrain = new Drivetrain();
-    private final Limelight lime = new Limelight();
+    private final Limelight lime = new Limelight(1/90d);
     private final Shooter shooter = new Shooter(lime);
     private final Intake intake = new Intake();
     private final Feeder feeder = new Feeder();
