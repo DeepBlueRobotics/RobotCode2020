@@ -1,6 +1,5 @@
 package org.team199.robot2020.commands;
 
-import org.team199.lib.RobotPath;
 import org.team199.robot2020.commands.ShooterHorizontalAim.SpinDirection;
 import org.team199.robot2020.subsystems.Drivetrain;
 import org.team199.robot2020.subsystems.Feeder;
@@ -12,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.lib.Limelight;
 import frc.robot.lib.LinearInterpolation;
+import frc.robot.lib.path.RobotPath;
 
 public class AutoShootAndDrive extends SequentialCommandGroup {
     public AutoShootAndDrive(Drivetrain drivetrain, Intake intake, Feeder feeder, Shooter shooter, 
@@ -19,7 +19,7 @@ public class AutoShootAndDrive extends SequentialCommandGroup {
         addRequirements(drivetrain, intake, feeder, shooter);
         
         addCommands(
-            new InstantCommand(path::loadOdometry),
+            new InstantCommand(path::initializeDrivetrainPosition),
             new ShooterHorizontalAim(drivetrain, lime, spinDirection),
             // new InstantCommand(() -> { 
             //     SmartDashboard.putNumber("Shooter.kTargetSpeed", linearInterpol.calculate(drivetrain.getOdometry().getPoseMeters().getTranslation().getDistance(target))); 
@@ -32,8 +32,8 @@ public class AutoShootAndDrive extends SequentialCommandGroup {
                 intake.intake();
                 intake.deploy();
             }, intake),
-            path.getPathCommand(),
-            reversePath.getPathCommand(),
+            path.getPathCommand(true, true),
+            reversePath.getPathCommand(true, true),
             new ShooterHorizontalAim(drivetrain, lime, SpinDirection.COUNTERCLOCKWISE),
             // new InstantCommand(() -> { 
             //     SmartDashboard.putNumber("Shooter.kTargetSpeed", linearInterpol.calculate(drivetrain.getOdometry().getPoseMeters().getTranslation().getDistance(target))); 

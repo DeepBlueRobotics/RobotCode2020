@@ -21,7 +21,7 @@ public class ShooterHorizontalAim extends CommandBase {
     }
 
     public void execute() {
-        adjustment = limelight.steeringAssist(drivetrain.getHeading());
+        adjustment = limelight.steeringAssist();
         if(NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0.0) == 0.0 && spinDir == SpinDirection.COUNTERCLOCKWISE) {
             adjustment *= -1;
         }
@@ -31,7 +31,6 @@ public class ShooterHorizontalAim extends CommandBase {
     public boolean isFinished() {
         double tx = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tx").getDouble(0.0);
         double tv = NetworkTableInstance.getDefault().getTable("limelight").getEntry("tv").getDouble(0.0);
-        tx += 4;
         return (Math.abs(tx) < txRange) && tv == 1.0 && Math.abs(drivetrain.getEncRate(Drivetrain.Side.LEFT)) + Math.abs(drivetrain.getEncRate(Drivetrain.Side.RIGHT)) < 1;
     }
 
